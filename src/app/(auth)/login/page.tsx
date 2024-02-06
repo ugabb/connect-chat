@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button'
 import React, { useState } from 'react'
 
-import { signIn } from 'next-auth/react'
+import { signIn, signOut } from 'next-auth/react'
 
 import { } from "react-icons";
 import toast from 'react-hot-toast';
@@ -25,6 +25,8 @@ const Login = () => {
     <div>
       <Button onClick={loginWithGoogle}>Google</Button>
       {loading && <p>Loading</p>}
+
+      <Button onClick={() => signOut()}>Sign out</Button>
     </div>
   )
 }
