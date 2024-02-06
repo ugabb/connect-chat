@@ -9,7 +9,7 @@ import React from 'react'
 const Dashboard = async () => {
     const session = await getServerSession(authOptions)
     return (
-        <div>
+        <div className='p-5'>
             <h1>Dashborad</h1>
             <p>{session?.user.name}</p>
             <p>{session?.user.email}</p>
