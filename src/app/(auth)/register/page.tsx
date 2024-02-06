@@ -22,7 +22,7 @@ const Register = () => {
 
     const router = useRouter();
 
-    const { register, handleSubmit, formState: { errors }, SU } = useForm<FormData>({
+    const { register, handleSubmit, formState: { errors }} = useForm<FormData>({
         resolver: zodResolver(userCredentialsValidation)
     })
 
@@ -74,9 +74,6 @@ const Register = () => {
                 </label>
                 <div className="flex items-center justify-center gap-3">
                     <Button className='flex gap-1 bg-transparent border border-main text-main hover:text-white hover:bg-main' type='submit'>Sign Up</Button>
-                    <Button className='flex gap-1 bg-transparent border border-main text-main hover:text-white hover:bg-main' onClick={loginWithGoogle}><FaGoogle /></Button>
-                    {loading && <p>Loading</p>}
-                    <Button className='bg-transparent border border-main text-main hover:text-white hover:bg-main' onClick={() => signOut()}>Sign out</Button>
                 </div>
             </form>
         </div>
