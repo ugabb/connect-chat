@@ -8,18 +8,21 @@ import { signIn, signOut } from 'next-auth/react'
 import { FaGoogle } from "react-icons/fa";
 import toast from 'react-hot-toast';
 import { Input } from '@/components/ui/input';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import axios from 'axios';
 import { userCredentialsValidation } from '@/lib/validations/user-credentials';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 
 type FormData = z.infer<typeof userCredentialsValidation>
 
 const Register = () => {
     const [loading, setLoading] = useState<boolean>(false)
 
-    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+    const router = useRouter();
+
+    const { register, handleSubmit, formState: { errors }, SU } = useForm<FormData>({
         resolver: zodResolver(userCredentialsValidation)
     })
 
@@ -34,9 +37,22 @@ const Register = () => {
         }
     }
 
-    const onSubmit = (data: any) => {
-        console.log(data)
-        axios.post("/api/register", data)
+    const onSubmit: SubmitHandler<FormData> = async (data: any) => {
+        try {
+            const response = await axios.post('/api/register', data)
+            const user: FormData = response.data;
+            if (response.statusText === "OK") {
+                await signIn('credentials', {
+                    name: user.name,
+                    email: user.email,
+                    password: user.password,
+                    redirect: false,
+                });
+                toast.success(`Usuário registrado com sucesso`);
+            }
+        } catch (error) {
+            toast.error(`Erro ao registrar usuário: ${error.response.data.error}`);
+        }
     }
 
     return (
@@ -46,15 +62,15 @@ const Register = () => {
             <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-5'>
                 <label className='text-sm'>
                     Nome
-                    <Input className='w-full' {...register("name")} type='text' placeholder='Gabriel' />
+                    <Input className='w-full' {...register("name", { required: true })} type='text' placeholder='Gabriel' />
                 </label>
                 <label className='text-sm'>
                     Email
-                    <Input className='w-full' {...register("email")} type='email' placeholder='gabriel@mail.com' />
+                    <Input className='w-full' {...register("email", { required: true })} type='email' placeholder='gabriel@mail.com' />
                 </label>
                 <label className='text-sm'>
                     Password
-                    <Input className='w-full' {...register("password")} type='password' placeholder='Gabriel' />
+                    <Input className='w-full' {...register("password", { required: true })} type='password' placeholder='Gabriel' />
                 </label>
                 <div className="flex items-center justify-center gap-3">
                     <Button className='flex gap-1 bg-transparent border border-main text-main hover:text-white hover:bg-main' type='submit'>Sign Up</Button>

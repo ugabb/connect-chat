@@ -4,6 +4,7 @@ interface User {
   email: string;
   image: string;
 }
+
 interface UserRegister {
   name: string;
   email: string;
