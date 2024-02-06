@@ -6,7 +6,7 @@ import { authOptions } from "@/lib/auth";
 import { addFriendValidator } from "@/lib/validations/add-friend";
 
 // Importando o cliente Redis e outras utilidades do Next.js
-import { redisDB } from "@/lib/db";
+import { redisDB } from "@/lib/prismadb";
 import { getServerSession } from "next-auth";
 
 // Importando o validador de esquema zod para lidar com a validação de dados

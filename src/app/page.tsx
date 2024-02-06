@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { redisDB } from '@/lib/db'
+import { redisDB } from '@/lib/prismadb'
 import { Button } from "@/components/ui/button";
 
 export default async function Home() {

@@ -1,3 +1,5 @@
+import { fetchRedis } from '@/app/helpers/redis'
+import FriendRequestSidebarOptions from '@/components/FriendRequestSidebarOptions'
 import SignOutButton from '@/components/SignOutButton'
 import { Button } from '@/components/ui/button'
 import { authOptions } from '@/lib/auth'
@@ -35,6 +37,9 @@ const sidebarOptions: SideBarOption[] = [
 const layout = async ({ children }: LayoutProps) => {
     const session = await getServerSession(authOptions)
     if (!session) notFound()
+
+    const unseenRequestCount = (await fetchRedis('smembers', `user:${session.user.id}:incoming_friend_requests`) as User[]).length
+
     return (
         <div className='w-full flex h-screen '>
             <div className="flex h-full max-w-sm grow flex-col gap-y-5 overflow-y-auto border-r border-gray bg-white px-6">
@@ -64,6 +69,8 @@ const layout = async ({ children }: LayoutProps) => {
                                         </Link>
                                     </li>
                                 ))}
+
+                               
                             </ul>
                         </li>
 

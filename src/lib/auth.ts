@@ -1,12 +1,14 @@
-import { UpstashRedisAdapter } from "@next-auth/upstash-redis-adapter";
 import { NextAuthOptions } from "next-auth";
-import { redisDB } from "./db";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
+import prisma from "@/lib/prismadb";
+import bcrypt from "bcrypt";
 
 // Função para verificar se as variáveis de ambiente do google está presente
 function getGoogleCredentials() {
-  const clientId = process.env.GOOGLE_CLIENT_ID;
-  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  const clientId = process.env.GOOGLE_CLIENT_ID as string;
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET as string;
 
   if (!clientId || clientId.length === 0) {
     throw new Error("Missing  GOOGLE_CLIENT_ID");
@@ -18,7 +20,7 @@ function getGoogleCredentials() {
 }
 
 export const authOptions: NextAuthOptions = {
-  adapter: UpstashRedisAdapter(redisDB),
+  adapter: PrismaAdapter(prisma),
   session: {
     strategy: "jwt",
   },
@@ -30,36 +32,71 @@ export const authOptions: NextAuthOptions = {
       clientId: getGoogleCredentials().clientId,
       clientSecret: getGoogleCredentials().clientSecret,
     }),
+    CredentialsProvider({
+      name: "credentials",
+      credentials: {
+        email: { label: "email", type: "text" },
+        password: { label: "password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("Invalid credentials");
+        }
+
+        const user = await prisma.user.findUnique({
+          where: {
+            email: credentials.email,
+          },
+        });
+
+        if (!user || !user?.hashedPassword) {
+          throw new Error("Invalid credentials");
+        }
+
+        const isCorrectPassword = await bcrypt.compare(
+          credentials.password,
+          user.hashedPassword
+        );
+
+        if (!isCorrectPassword) {
+          throw new Error("Invalid credentials");
+        }
+
+        return user;
+      },
+    }),
   ],
-  callbacks: {
-    async jwt({ token, user }) {
-      const dbUser = (await redisDB.get(`user:${token.id}`)) as User | null;
-      if (!dbUser) {
-        token.id = user.id;
-        return token;
-      }
+  debug: process.env.NODE_ENV === "development",
+  secret: process.env.NEXTAUTH_SECRET,
+  // callbacks: {
+  //   async jwt({ token, user }) {
+  //     const dbUser = (await redisDB.get(`user:${token.id}`)) as User | null;
+  //     if (!dbUser) {
+  //       token.id = user.id;
+  //       return token;
+  //     }
 
-      return {
-        id: dbUser.id,
-        name: dbUser.name,
-        email: dbUser.email,
-        picture: dbUser.image,
-      };
-    },
+  //     return {
+  //       id: dbUser.id,
+  //       name: dbUser.name,
+  //       email: dbUser.email,
+  //       picture: dbUser.image,
+  //     };
+  //   },
 
-    async session({ session, token }) {
-      if (token) {
-        session.user.id = token.id;
-        session.user.name = token.name;
-        session.user.email = token.email;
-        session.user.image = token.picture;
-      }
+  //   async session({ session, token }) {
+  //     if (token) {
+  //       session.user.id = token.id;
+  //       session.user.name = token.name;
+  //       session.user.email = token.email;
+  //       session.user.image = token.picture;
+  //     }
 
-      return session;
-    },
+  //     return session;
+  //   },
 
-    redirect() {
-      return "/dashboard";
-    },
-  },
+  //   redirect() {
+  //     return "/dashboard";
+  //   },
+  // },
 };
