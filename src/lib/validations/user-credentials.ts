@@ -8,3 +8,10 @@ export const userCredentialsValidation = z.object({
     .min(6, "Senha deve conter pelo menos 6 caracteres")
     .nullable(),
 });
+export const userCredentialsValidationLogin = z.object({
+  email: z.string().email().nullable(),
+  password: z
+    .string()
+    .min(6, "Senha deve conter pelo menos 6 caracteres")
+    .nullable(),
+});
