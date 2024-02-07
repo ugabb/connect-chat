@@ -9,7 +9,7 @@ import ConversationBox from './ConversationBox';
 import { MdOutlineGroupAdd } from 'react-icons/md';
 interface ConversationListProps {
   initialConversations: FullConversationType[];
-  // users: User[];
+  users?: User[];
   title?: string;
 }
 

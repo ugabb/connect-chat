@@ -9,6 +9,7 @@ import { redirect } from 'next/navigation'
 import Sidebar from '@/components/siderbar/Sidebar'
 import ConversationList from './components/ConversationList'
 import getConversations from '../actions/getConversations'
+import getUsers from '../actions/getUsers'
 interface LayoutProps {
     children: ReactNode
 }
@@ -20,11 +21,12 @@ const layout = async ({ children }: LayoutProps) => {
     }
 
     const conversations = await getConversations()
+    const users = await getUsers()
 
     return (
         <Sidebar>
             <div className="h-full">
-                <ConversationList initialConversations={conversations} />
+                <ConversationList initialConversations={conversations} title='Messages' users={users} />
                 {children}
             </div>
         </Sidebar>
