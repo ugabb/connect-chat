@@ -16,9 +16,9 @@ const nextConfig = {
  * O objeto vazio '{}' indica a utilização da configuração padrão para o 'next-superjson-plugin'.
  */
   experimental: {
-    swcPlugins: [
-      ["next-superjson-plugin", {}]
-    ]
+    // swcPlugins: [
+    //   ["next-superjson-plugin", {}]
+    // ]
   }
 };
 
