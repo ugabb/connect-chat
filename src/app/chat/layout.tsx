@@ -7,28 +7,11 @@ import Link from 'next/link'
 import React, { ReactNode } from 'react'
 import { redirect } from 'next/navigation'
 import Sidebar from '@/components/siderbar/Sidebar'
+import ConversationList from './components/ConversationList'
+import getConversations from '../actions/getConversations'
 interface LayoutProps {
     children: ReactNode
 }
-
-interface SideBarOption {
-    id: number;
-    name: string
-    href: string
-}
-
-const sidebarOptions: SideBarOption[] = [
-    {
-        id: 1,
-        name: "Chat",
-        href: '/chat',
-    },
-    {
-        id: 1,
-        name: "Add friend",
-        href: '/chat/add',
-    },
-]
 
 const layout = async ({ children }: LayoutProps) => {
     const session = await getServerSession(authOptions)
@@ -36,9 +19,12 @@ const layout = async ({ children }: LayoutProps) => {
         redirect(`/login`)
     }
 
+    const conversations = await getConversations()
+
     return (
         <Sidebar>
             <div className="h-full">
+                <ConversationList initialConversations={conversations} />
                 {children}
             </div>
         </Sidebar>
