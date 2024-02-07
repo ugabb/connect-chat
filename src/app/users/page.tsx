@@ -3,7 +3,7 @@ import React from 'react'
 
 const People = () => {
     return (
-        <div className="h-full">
+        <div className="hidden lg:block lg:pl-80 h-full">
             <Empty />
         </div>
     )
