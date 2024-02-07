@@ -67,36 +67,26 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   debug: process.env.NODE_ENV === "development",
-  secret: process.env.NEXTAUTH_SECRET,
-  // callbacks: {
-  //   async jwt({ token, user }) {
-  //     const dbUser = (await redisDB.get(`user:${token.id}`)) as User | null;
-  //     if (!dbUser) {
-  //       token.id = user.id;
-  //       return token;
-  //     }
+  secret: process.env.NEXTAUTH_SECRET as string,
+  callbacks: {
+    async jwt({ token, user }) {
+      console.log(user,token);
+      return token;
+    },
 
-  //     return {
-  //       id: dbUser.id,
-  //       name: dbUser.name,
-  //       email: dbUser.email,
-  //       picture: dbUser.image,
-  //     };
-  //   },
+    async session({ session, token }) {
+      if (token) {
+        console.log({ token });
+        session.user.name = token.name;
+        session.user.email = token.email;
+        session.user.image = token.picture;
+      }
 
-  //   async session({ session, token }) {
-  //     if (token) {
-  //       session.user.id = token.id;
-  //       session.user.name = token.name;
-  //       session.user.email = token.email;
-  //       session.user.image = token.picture;
-  //     }
+      return session;
+    },
 
-  //     return session;
-  //   },
-
-  //   redirect() {
-  //     return "/dashboard";
-  //   },
-  // },
+    redirect() {
+      return "/dashboard";
+    },
+  },
 };
