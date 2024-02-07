@@ -1,16 +1,11 @@
-import { fetchRedis } from '@/app/helpers/redis'
-import FriendRequestSidebarOptions from '@/components/FriendRequestSidebarOptions'
+"use server"
 import SignOutButton from '@/components/SignOutButton'
-import { Button } from '@/components/ui/button'
 import { authOptions } from '@/lib/auth'
 import { getServerSession } from 'next-auth'
-import { signOut } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
 import React, { ReactNode } from 'react'
-import { PiSignOut } from 'react-icons/pi'
-
+import { redirect } from 'next/navigation'
 interface LayoutProps {
     children: ReactNode
 }
@@ -36,9 +31,9 @@ const sidebarOptions: SideBarOption[] = [
 
 const layout = async ({ children }: LayoutProps) => {
     const session = await getServerSession(authOptions)
-    if (!session) notFound()
-
-    const unseenRequestCount = (await fetchRedis('smembers', `user:${session.user.id}:incoming_friend_requests`) as User[]).length
+    if (!session) {
+        redirect(`/login`) 
+    }
 
     return (
         <div className='w-full flex h-screen '>
@@ -70,7 +65,7 @@ const layout = async ({ children }: LayoutProps) => {
                                     </li>
                                 ))}
 
-                               
+
                             </ul>
                         </li>
 
@@ -81,7 +76,7 @@ const layout = async ({ children }: LayoutProps) => {
                                         fill
                                         referrerPolicy='no-referrer'
                                         className='rounded-full'
-                                        src={session.user.image || ''}
+                                        src={session.user.image ?? ''}
                                         alt='Your profile picture'
                                     />
                                 </div>
