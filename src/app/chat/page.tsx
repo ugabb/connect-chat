@@ -7,7 +7,7 @@ import React from 'react'
 import useConversation from '../hooks/useConversation'
 import clsx from 'clsx'
 
-const Chat = async () => {
+const Chat = () => {
     const { isOpen } = useConversation();
     return (
         <div className={
