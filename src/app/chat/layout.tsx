@@ -20,13 +20,13 @@ interface SideBarOption {
 const sidebarOptions: SideBarOption[] = [
     {
         id: 1,
-        name: "Dashboard",
-        href: '/dashboard',
+        name: "Chat",
+        href: '/chat',
     },
     {
         id: 1,
         name: "Add friend",
-        href: '/dashboard/add',
+        href: '/chat/add',
     },
 ]
 

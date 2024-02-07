@@ -26,7 +26,7 @@ const Login = () => {
   const session = useSession();
   useEffect(() => {
     if (session?.status === 'authenticated') {
-      router.push('/dashboard')
+      router.push('/chat')
     }
   }, [session?.status, router]);
 
