@@ -55,7 +55,7 @@ const Register = () => {
                         redirect: false,
                     });
                     toast.success(`Usuário registrado com sucesso`);
-                    router.push("/dashboard")
+                    router.push("/chat")
                 }
             } catch (error) {
                 toast.error(`Erro ao registrar usuário: ${error.response.data.error}`);

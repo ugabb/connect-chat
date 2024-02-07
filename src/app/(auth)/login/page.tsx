@@ -41,7 +41,7 @@ const Login = () => {
       signIn('google', { redirect: false }).then((callback) => {
         if (callback?.ok) {
           toast.success(`Bem vindo!`);
-          router.push("/dashboard")
+          router.push("/chat")
         }
         if (callback?.error) {
           toast.error(`Erro ao conect com o Google!`);
@@ -64,7 +64,7 @@ const Login = () => {
       });
       if (successSignIn?.ok) {
         toast.success(`Bem vindo!`);
-        router.push("/dashboard")
+        router.push("/chat")
       }
     } catch (error) {
       toast.error(`Erro ao registrar usuário: ${error}`);
