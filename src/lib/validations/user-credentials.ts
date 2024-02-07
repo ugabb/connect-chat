@@ -1,17 +1,15 @@
 import { z } from "zod";
 
 export const userCredentialsValidation = z.object({
-  name: z.string().nullable(),
-  email: z.string().email().nullable(),
+  name: z.string(),
+  email: z.string().email(),
   password: z
     .string()
     .min(6, "Senha deve conter pelo menos 6 caracteres")
-    .nullable(),
 });
 export const userCredentialsValidationLogin = z.object({
-  email: z.string().email().nullable(),
+  email: z.string().email(),
   password: z
     .string()
-    .min(6, "Senha deve conter pelo menos 6 caracteres")
-    .nullable(),
+    .min(6, "Senha deve conter pelo menos 6 caracteres"),
 });
