@@ -16,7 +16,7 @@ const UserBox = ({ data }: UserBoxProps) => {
         // criar uma conversa
         axios.post('/api/conversations', { userId: data.id })
             .then((data) => {
-                router.push(`/conversations/${data.data.id}`);
+                router.push(`/chat/${data.data.id}`);
             })
             .finally(() => setIsLoading(false));
     }, [data, router]);

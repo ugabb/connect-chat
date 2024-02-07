@@ -3,6 +3,8 @@
 import useOtherUser from '@/app/hooks/useOtherUser';
 import { FullConversationType } from '@/app/types';
 import AvatarProfile from '@/components/Avatar';
+import clsx from 'clsx';
+import { format } from "date-fns";
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { useCallback, useMemo } from 'react'
@@ -20,7 +22,7 @@ const ConversationBox = ({ data, selected }: ConversationBoxProps) => {
     const router = useRouter()
 
     const handleClick = useCallback(() => {
-        router.push(`/conversation/${data.id}`)
+        router.push(`/chat/${data.id}`)
     }, [data.id, router])
 
     const lastMessage = useMemo(() => {
@@ -49,7 +51,7 @@ const ConversationBox = ({ data, selected }: ConversationBoxProps) => {
 
     const lastMessageText = useMemo(() => {
         if (lastMessage?.image) {
-            return "Envie uma imagem"
+            return "Enviou uma imagem"
         }
 
         if (lastMessage?.body) {
@@ -77,11 +79,12 @@ const ConversationBox = ({ data, selected }: ConversationBoxProps) => {
                 selected ? 'bg-neutral-100' : 'bg-white'
             )}
         >
-            {data.isGroup ? (
+            {/* {data.isGroup ? (
                 <AvatarGroup users={data.users} />
             ) : (
                 <AvatarProfile user={otherUser} />
-            )}
+                )} */}
+                <AvatarProfile user={otherUser} />
             <div className="min-w-0 flex-1">
                 <div className="focus:outline-none">
                     <span className="absolute inset-0" aria-hidden="true" />
