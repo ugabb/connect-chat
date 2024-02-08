@@ -44,7 +44,7 @@ const Header = ({ conversation }: HeaderProps) => {
         >
             <div className="flex gap-3 items-center">
                 <Link
-                    href="/conversations"
+                    href="/chat"
                     className="
             lg:hidden 
             block 
