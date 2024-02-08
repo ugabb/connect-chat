@@ -29,7 +29,7 @@ const MessageInput = ({ id, register, errors, placeholder, required, type }: Mes
             px-4
             bg-neutral-100 
             w-full 
-            rounded-lg
+            
             hover:ring-main
           "
             />

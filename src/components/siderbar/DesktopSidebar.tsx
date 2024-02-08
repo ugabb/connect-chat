@@ -4,8 +4,9 @@ import useRoutes from '@/app/hooks/useRoutes';
 import React, { useState } from 'react'
 import DesktopItem from './DesktopItem';
 import { User } from '@prisma/client';
-import { Avatar } from '@radix-ui/react-avatar';
-import AvatarProfile from '../Avatar';
+import SettingsDialog from './SettingsDialog';
+
+
 
 interface DesktopSideBarProps {
     currentUser: User
@@ -45,11 +46,8 @@ const DesktopSidebar = ({
                     ))}
                 </ul>
             </nav>
-
             <nav className='mt-4 flex flex-col justify-between items-center'>
-                <div className="cursor-pointer hover:opacity-75  hover:text-main transition">
-                    <AvatarProfile  user={currentUser}/>
-                </div>
+                <SettingsDialog currentUser={currentUser} />
             </nav>
         </div>
     )
