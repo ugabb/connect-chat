@@ -8,6 +8,8 @@ import { PiImage, PiPaperPlaneTilt } from 'react-icons/pi'
 import MessageInput from './MessageInput'
 import { Button } from '@/components/ui/button'
 
+import { CldUploadButton } from 'next-cloudinary'
+
 const Form = () => {
     const { conversationId } = useConversation()
 
@@ -25,6 +27,13 @@ const Form = () => {
         axios.post('/api/messages', { ...data, conversationId })
     }
 
+    const handleUpload = (result: any) => {
+        axios.post("/api/messages", {
+            image: result?.info?.secure_url,
+            conversationId
+        })
+    }
+
     return (
         <div
             className="
@@ -39,7 +48,13 @@ const Form = () => {
           w-full
         "
         >
-            <PiImage size={30} className="text-main" />
+            <CldUploadButton
+                options={{ maxFiles: 1 }}
+                onUpload={handleUpload}
+                uploadPreset='fintalk-chat'
+            >
+                <PiImage size={30} className="text-main" />
+            </CldUploadButton>
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="flex items-center gap-2 lg:gap-4 w-full"
@@ -53,7 +68,7 @@ const Form = () => {
                 />
 
                 <Button type='submit' className='rounded-full p-2 bg-main hover:bg-main/50' >
-                    <PiPaperPlaneTilt size={20}/>
+                    <PiPaperPlaneTilt size={20} />
                 </Button>
             </form>
         </div>

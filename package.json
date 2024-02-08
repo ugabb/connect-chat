@@ -26,6 +26,7 @@
     "date-fns": "^3.3.1",
     "next": "14.1.0",
     "next-auth": "^4.24.5",
+    "next-cloudinary": "^5.20.0",
     "next-superjson-plugin": "^0.6.2",
     "pusher": "^5.2.0",
     "pusher-js": "^8.4.0-rc2",
