@@ -8,6 +8,7 @@ import React, { useMemo } from 'react'
 
 import { HiChevronLeft } from 'react-icons/hi'
 import { HiEllipsisHorizontal } from 'react-icons/hi2';
+import ProfileDrawer from './ProfileDrawer'
 
 interface HeaderProps {
     conversation: Conversation & {
@@ -69,15 +70,7 @@ const Header = ({ conversation }: HeaderProps) => {
                     </div>
                 </div>
             </div>
-            <HiEllipsisHorizontal
-                size={32}
-                className="
-          text-main
-          cursor-pointer
-          hover:text-main/50
-          transition
-        "
-            />
+            <ProfileDrawer data={conversation} />
         </div>
     )
 }
