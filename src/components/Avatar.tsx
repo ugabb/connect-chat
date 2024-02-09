@@ -25,7 +25,7 @@ const AvatarProfile: React.FC<AvatarProps> = ({ user }: AvatarProps) => {
           md:w-11
         ">
                 {user?.image ?
-                    <Image className='rounded-full' width={50} height={50} alt='profile avatar' src={user?.image} />
+                    <Image className='rounded-full h-9 w-9 md:h-11 md:w-11 object-cover' width={600} height={600} alt='profile avatar' src={user?.image} />
                     :
                     <PiUser className='w-full h-full' />
 
