@@ -27,6 +27,9 @@ import axios from 'axios'
 import toast from 'react-hot-toast'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { DialogClose } from '@radix-ui/react-dialog'
+import { PiCircleNotch, PiX } from 'react-icons/pi'
 
 
 interface GroupChatDialogProps {
@@ -46,7 +49,7 @@ const GroupChatDialog = ({ users }: GroupChatDialogProps) => {
     const [membersList, setMembersList] = useState<IMembers[]>([])
     const [loading, setloading] = useState(false)
 
-    const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<FieldValues>({
+    const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<IGroup>({
         defaultValues: {
             name: "",
             members: []
@@ -54,19 +57,30 @@ const GroupChatDialog = ({ users }: GroupChatDialogProps) => {
     })
 
     const onSubmit: SubmitHandler<IGroup> = (data: IGroup) => {
-        // setloading(true)
-        data.members = membersList 
+        setloading(true)
+        data.members = membersList
         console.log("data to send", data)
-        axios.post("/api/conversations", {
-            ...data,
-            isGroup: true
-        })
-            .then(() => {
-                toast.success("Grupo criado com sucesso!")
-                router.refresh()
+        if (data.members.length < 2) {
+            setloading(false)
+            return toast.error("Selecione mais de 2 pessoas")
+        } else {
+            axios.post("/api/conversations", {
+                ...data,
+                isGroup: true
             })
-            .catch(() => toast.error("Algo deu errado em criar o grupo 😔"))
-            .finally(() => setloading(false))
+                .then(() => {
+                    toast.success("Grupo criado com sucesso!")
+                    router.refresh()
+                })
+                .catch(() => toast.error("Algo deu errado em criar o grupo 😔"))
+                .finally(() => setloading(false))
+        }
+    }
+
+    const handleRemoveMember = (userId: string) => {
+        const updatedMembers = membersList.filter((user) => user.userId !== userId)
+        console.log(updatedMembers)
+        return setMembersList(updatedMembers)
     }
 
     return (
@@ -90,8 +104,13 @@ const GroupChatDialog = ({ users }: GroupChatDialogProps) => {
                                 <Input
                                     className='w-2/3'
                                     // disabled={loading}
-                                    {...register("name")}
+                                    {...register("name", { required: "Grupo precisa de um nome" })}
                                 />
+                                {errors.name &&
+                                    <span className='text-sm text-red-500'>
+                                        {errors?.name?.message}
+                                    </span>
+                                }
                             </label>
 
                             <Select onValueChange={(value) => {
@@ -107,9 +126,24 @@ const GroupChatDialog = ({ users }: GroupChatDialogProps) => {
                                     <SelectItem value="7892525hn2bnf2">Naruto</SelectItem>
                                 </SelectContent>
                             </Select>
-                            {membersList.map((user) => (
-                                <p>{user.userId}</p>
-                            ))}
+                            <div className='flex flex-wrap gap-1'>
+                                {
+                                    membersList.map((selected) => {
+                                        const selectedUser = users.find((user) => user.id === selected.userId)
+
+                                        if (selectedUser) {
+                                            return (
+                                                <Badge variant="default" className='w-fit bg-main flex gap-1 items-center'>
+                                                    {selectedUser.name}
+                                                    <PiX className='cursor-pointer' onClick={() => handleRemoveMember(selectedUser.id)} />
+                                                </Badge>
+                                            )
+                                        }
+                                        return null
+                                    })
+                                }
+
+                            </div>
 
 
                             {/* <Select
@@ -128,15 +162,24 @@ const GroupChatDialog = ({ users }: GroupChatDialogProps) => {
                     </div>
 
                     <div className="mt-6 flex items-center justify-end gap-x-6">
-                        <Button
-                            disabled={loading}
-                            type="button"
-                        >
-                            Cancel
-                        </Button>
-                        <Button disabled={loading} type="submit">
-                            Create
-                        </Button>
+                        <DialogClose>
+                            <Button
+                                disabled={loading}
+                                type="button"
+                                className='bg-transparent text-black hover:text-main hover:bg-transparent '
+                            >
+                                Cancel
+                            </Button>
+                        </DialogClose>
+
+                        {loading
+                            ?
+                            <PiCircleNotch size={20} className='animate-spin text-main' />
+                            :
+                            <Button disabled={loading} type="submit" className='bg-main hover:bg-main hover:scale-105'>
+                                Create
+                            </Button>
+                        }
                     </div>
 
                 </form>
