@@ -16,7 +16,6 @@ import { Conversation } from '@prisma/client';
 import useOtherUser from '@/app/hooks/useOtherUser';
 import { format } from 'date-fns';
 import AvatarProfile from '@/components/Avatar';
-import { PiTrash, PiTrashSimple } from 'react-icons/pi';
 import ConfirmDialog from './ConfirmDialog';
 import AvatarGroup from '@/components/AvatarGroup';
 
