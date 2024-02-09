@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import React, { useEffect } from 'react'
+import ImageDialog from './ImageDialog';
 
 interface MessageBoxProps {
     isLast?: boolean;
@@ -60,7 +61,7 @@ const MessageBox = ({ isLast, data }: MessageBoxProps) => {
                     {data.image
                         ?
                         (
-                            <Image height={300} width={300} src={data.image} className='object-cover cursor-pointer hover:scale-105 trasition translate' alt='Image' />
+                            <ImageDialog src={data.image} />
                         )
                         :
                         (
