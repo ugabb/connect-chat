@@ -1,4 +1,5 @@
 import AvatarProfile from '@/components/Avatar'
+import LoadingDialog from '@/components/LoadingDialog';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { useCallback, useState } from 'react'
@@ -21,9 +22,11 @@ const UserBox = ({ data }: UserBoxProps) => {
             .finally(() => setIsLoading(false));
     }, [data, router]);
     return (
-        <div
-            onClick={handleClick}
-            className="
+        <>
+            {isLoading && <LoadingDialog />}
+            <div
+                onClick={handleClick}
+                className="
           w-full 
           relative 
           flex 
@@ -36,19 +39,20 @@ const UserBox = ({ data }: UserBoxProps) => {
           transition
           cursor-pointer
         "
-        >
-            <AvatarProfile user={data} />
-            <div className="min-w-0 flex-1">
-                <div className="focus:outline-none">
-                    <span className="absolute inset-0" aria-hidden="true" />
-                    <div className="flex justify-between items-center mb-1">
-                        <p className="text-sm font-medium text-gray-900">
-                            {data.name}
-                        </p>
+            >
+                <AvatarProfile user={data} />
+                <div className="min-w-0 flex-1">
+                    <div className="focus:outline-none">
+                        <span className="absolute inset-0" aria-hidden="true" />
+                        <div className="flex justify-between items-center mb-1">
+                            <p className="text-sm font-medium text-gray-900">
+                                {data.name}
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 
