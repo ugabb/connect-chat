@@ -35,8 +35,8 @@ export async function POST(request: Request) {
           users: {
             connect: [
               // Mapeia os membros do grupo para o formato de conexão do Prisma
-              ...members.map((member: { value: string }) => ({
-                id: member.value,
+              ...members.map((member: { userId: string }) => ({
+                id: member.userId,
               })),
               // Adiciona o usuário atual à lista de usuários conectados ao grupo
               {

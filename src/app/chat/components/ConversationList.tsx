@@ -6,13 +6,14 @@ import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import ConversationBox from './ConversationBox';
-import { MdOutlineGroupAdd } from 'react-icons/md';
+
+import GroupChatDialog from './GroupChatDialog';
+
 interface ConversationListProps {
   initialConversations: FullConversationType[];
-  users?: User[];
+  users: User[];
   title?: string;
 }
-
 
 const ConversationList = ({ initialConversations, users, title }: ConversationListProps) => {
 
@@ -51,7 +52,7 @@ const ConversationList = ({ initialConversations, users, title }: ConversationLi
             transition
           "
           >
-            <MdOutlineGroupAdd size={20} />
+            <GroupChatDialog users={users} />
           </div>
         </div>
         {conversations.map((conv) => (

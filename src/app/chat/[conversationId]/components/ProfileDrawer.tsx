@@ -18,6 +18,7 @@ import { format } from 'date-fns';
 import AvatarProfile from '@/components/Avatar';
 import { PiTrash, PiTrashSimple } from 'react-icons/pi';
 import ConfirmDialog from './ConfirmDialog';
+import AvatarGroup from '@/components/AvatarGroup';
 
 interface ProfileDrawerProps {
     data: Conversation & {
@@ -85,7 +86,11 @@ const ProfileDrawer = ({ data }: ProfileDrawerProps) => {
                     </DrawerHeader>
                     <div className="flex flex-col justify-center items-center gap-6 mt-10">
                         <div className="flex flex-col justify-center items-center gap-1">
-                            <AvatarProfile user={otherUser} />
+                            {data.isGroup ?
+                                <AvatarGroup users={data.users} />
+                                :
+                                <AvatarProfile user={otherUser} />
+                            }
                             <p className='text-lg'>{title}</p>
                             <p className='text-xs text-gray-400'>{statusText}</p>
                         </div>

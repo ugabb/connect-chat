@@ -69,7 +69,7 @@ const Settings = ({ currentUser }: SettingsProps) => {
                                         width="800"
                                         height="800"
                                         className="rounded-full object-cover w-[100px] h-[100px]"
-                                        src={image || currentUser?.image}
+                                        src={image || currentUser?.image || ""}
                                         alt="Avatar"
                                     />
 
