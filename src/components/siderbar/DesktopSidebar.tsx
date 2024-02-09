@@ -4,7 +4,7 @@ import useRoutes from '@/app/hooks/useRoutes';
 import React, { useState } from 'react'
 import DesktopItem from './DesktopItem';
 import { User } from '@prisma/client';
-import SettingsDialog from './SettingsDialog';
+import SettingsDropdown from './SettingsDialog';
 
 
 
@@ -47,7 +47,7 @@ const DesktopSidebar = ({
                 </ul>
             </nav>
             <nav className='mt-4 flex flex-col justify-between items-center'>
-                <SettingsDialog currentUser={currentUser} />
+                <SettingsDropdown currentUser={currentUser} />
             </nav>
         </div>
     )
