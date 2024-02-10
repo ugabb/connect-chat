@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dialog"
 import { PiTrash, PiWarning } from 'react-icons/pi';
 import { Button } from '@/components/ui/button';
+import LoadingDialog from '@/components/LoadingDialog';
 
 const ConfirmDialog = () => {
     const router = useRouter();
@@ -27,7 +28,7 @@ const ConfirmDialog = () => {
 
     const onDelete = useCallback(() => {
         setIsLoading(true)
-
+        console.log(conversationId)
         axios.delete(`api/conversations/${conversationId}`)
             .then(() => {
                 // fecha dialog
@@ -42,30 +43,33 @@ const ConfirmDialog = () => {
     }, [router, conversationId])
 
     return (
-        <Dialog>
-            <DialogTrigger>
-                <div className="flex flex-col justify-center items-center h-10 w-10 rounded-full bg-gray-100 hover:bg-main/50 transition cursor-pointer">
-                    <PiTrash className=' text-main' size={20} />
-                </div>
-            </DialogTrigger>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>Você tem certeza que deseja excluir?</DialogTitle>
-                    <DialogDescription className='flex items-center gap-2'>
-                        <PiWarning className=' text-main' size={20} />
-                        <p>Essa ação <span className='text-main'>não</span> pode ser desfeita!</p>
-                    </DialogDescription>
-                </DialogHeader>
-                <DialogFooter>
-                    <DialogClose asChild>
-                        <Button type='button' className='bg-transparent text-gray-900 font-bold shadow-none  hover:text-main hover:bg-transparent transition ease-in-out'>Não</Button>
-                    </DialogClose>
-                    <DialogClose asChild>
-                        <Button type='button' className='bg-transparent text-white font-bold shadow-none bg-main hover:shadow-md hover:bg-main hover:opacity-80 hover:scale-105 transition-all' onClick={onDelete}>Excluir</Button>
-                    </DialogClose>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+        <>
+            {isLoading && <LoadingDialog />}
+            <Dialog>
+                <DialogTrigger>
+                    <div className="flex flex-col justify-center items-center h-10 w-10 rounded-full bg-gray-100 hover:bg-main/50 transition cursor-pointer">
+                        <PiTrash className=' text-main' size={20} />
+                    </div>
+                </DialogTrigger>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Você tem certeza que deseja excluir?</DialogTitle>
+                        <DialogDescription className='flex items-center gap-2'>
+                            <PiWarning className=' text-main' size={20} />
+                            <p>Essa ação <span className='text-main'>não</span> pode ser desfeita!</p>
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <DialogClose asChild>
+                            <Button type='button' className='bg-transparent text-gray-900 font-bold shadow-none  hover:text-main hover:bg-transparent transition ease-in-out'>Não</Button>
+                        </DialogClose>
+                        <DialogClose asChild>
+                            <Button type='button' className='bg-transparent text-white font-bold shadow-none bg-main hover:shadow-md hover:bg-main hover:opacity-80 hover:scale-105 transition-all' onClick={onDelete}>Excluir</Button>
+                        </DialogClose>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+        </>
 
     )
 }

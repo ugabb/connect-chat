@@ -4,10 +4,13 @@ import useConversation from '@/app/hooks/useConversation';
 import { FullConversationType } from '@/app/types';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import ConversationBox from './ConversationBox';
 
 import GroupChatDialog from './GroupChatDialog';
+import { useSession } from 'next-auth/react';
+import { pusherClient } from '@/lib/pusher';
+import { find } from 'lodash';
 
 interface ConversationListProps {
   initialConversations: FullConversationType[];
@@ -16,12 +19,41 @@ interface ConversationListProps {
 }
 
 const ConversationList = ({ initialConversations, users, title }: ConversationListProps) => {
+  const session = useSession()
 
   const [conversations, setConversations] = useState(initialConversations)
 
   const router = useRouter();
 
   const { conversationId, isOpen } = useConversation()
+
+  const pusherKey = useMemo(() => {
+    return session?.data?.user.email
+  }, [session?.data?.user.email])
+
+  useEffect(() => {
+    if (!pusherKey) return;
+
+    pusherClient.subscribe(pusherKey)
+
+    const newHandler = (conversation: FullConversationType) => {
+      setConversations((current) => {
+        if (find(current, { id: conversation.id })) {
+          return current
+        }
+
+        return [conversation, ...current]
+      })
+    }
+
+    pusherClient.bind("conversation:new", newHandler)
+
+    return () => {
+      pusherClient.unsubscribe(pusherKey);
+      pusherClient.unbind("conversation:new", newHandler)
+    }
+  }, [pusherKey])
+
 
   return (
     <aside className={clsx(`
