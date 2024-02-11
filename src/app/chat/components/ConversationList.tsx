@@ -36,6 +36,7 @@ const ConversationList = ({ initialConversations, users, title }: ConversationLi
 
     pusherClient.subscribe(pusherKey)
 
+    // automaticamente renderizar uma conversa nova iniciada na lista de conversas
     const newHandler = (conversation: FullConversationType) => {
       setConversations((current) => {
         if (find(current, { id: conversation.id })) {
@@ -46,11 +47,28 @@ const ConversationList = ({ initialConversations, users, title }: ConversationLi
       })
     }
 
+    // atualiza a ultima mensagem para aparecer na determinada conversation box, como um preview da ultima mensagem
+    const updateHandler = (conversation: FullConversationType) => {
+      setConversations((current) => current.map((currentConversation) => {
+        if (currentConversation.id === conversation.id) {
+          return {
+            ...currentConversation,
+            messages: conversation.messages
+          };
+        }
+
+        return currentConversation
+      }));
+
+    }
+
     pusherClient.bind("conversation:new", newHandler)
+    pusherClient.bind("conversation:update", updateHandler)
 
     return () => {
       pusherClient.unsubscribe(pusherKey);
       pusherClient.unbind("conversation:new", newHandler)
+      pusherClient.unbind("conversation:update", newHandler)
     }
   }, [pusherKey])
 
