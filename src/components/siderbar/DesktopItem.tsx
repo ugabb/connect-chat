@@ -9,10 +9,10 @@ interface DesktopItemProps {
   active?: boolean;
 }
 
-const DesktopItem: React.FC<DesktopItemProps> = ({ 
-  label, 
-  href, 
-  icon: Icon, 
+const DesktopItem: React.FC<DesktopItemProps> = ({
+  label,
+  href,
+  icon: Icon,
   active,
   onClick
 }) => {
@@ -22,8 +22,10 @@ const DesktopItem: React.FC<DesktopItemProps> = ({
     }
   };
 
-  return ( 
-    <li onClick={handleClick} key={label}>
+
+
+  return (
+    <li onClick={handleClick} key={label} className='relative'>
       <Link
         href={href}
         className={clsx(`
@@ -39,14 +41,36 @@ const DesktopItem: React.FC<DesktopItemProps> = ({
             hover:text-white
             hover:bg-main
           `,
-            active && ' text-main'
-          )}
+          active && ' text-main'
+        )}
       >
         <Icon className="h-6 w-6 shrink-0" aria-hidden="true" />
+        {label === "Users" &&
+          <span
+            className="
+            absolute 
+            rounded-full 
+            bg-main 
+            ring-2 
+            ring-white 
+            -top-2 
+            -right-2
+            h-4 
+            w-4
+            text-xs
+            flex
+            justify-center
+            items-center
+            text-white
+          "
+          >
+            3
+          </span>
+        }
         <span className="sr-only">{label}</span>
       </Link>
     </li>
-   );
+  );
 }
- 
+
 export default DesktopItem;

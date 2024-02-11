@@ -1,7 +1,7 @@
 import { usePathname } from "next/navigation";
 import { HiChat } from "react-icons/hi";
 import { HiArrowLeftOnRectangle, HiUsers } from "react-icons/hi2";
-import { PiSignOut, PiChat, PiUsers } from "react-icons/pi";
+import { PiUserList, PiChat, PiUsers } from "react-icons/pi";
 import { signOut } from "next-auth/react";
 
 import useConversation from "./useConversation";
@@ -22,14 +22,8 @@ const useRoutes = () => {
       {
         label: "Users",
         href: "/users",
-        icon: PiUsers,
+        icon: PiUserList,
         active: pathName === "/users",
-      },
-      {
-        label: "Logout",
-        onClick: () => signOut(),
-        href: "#",
-        icon: PiSignOut,
       },
     ],
     [pathName, conversationId]

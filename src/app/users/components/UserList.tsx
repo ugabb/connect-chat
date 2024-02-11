@@ -3,12 +3,16 @@
 import { User } from '@prisma/client'
 import React from 'react'
 import UserBox from './UserBox'
+import FriendRequestDialog from './FriendRequestDialog'
+
+import FriendSearch from './FriendSearch'
 
 interface UserListProps {
-    items: User[]
+    users: User[]
 }
 
-const UserList = ({ items }: UserListProps) => {
+const UserList = ({ users }: UserListProps) => {
+
     return (
         <aside
             className="
@@ -26,26 +30,30 @@ const UserList = ({ items }: UserListProps) => {
       "
         >
             <div className="px-5">
-                <div className="flex-col">
-                    <div
-                        className="
+                <div className="flex flex-col mb-4 pt-4">
+                    <div className="flex justify-between items-center w-full">
+                        <div
+                            className="
               text-2xl 
               font-bold 
               text-neutral-800 
               py-4
-            "
-                    >
-                        People
+              "
+                        >
+                            People
+                        </div>
+                        <FriendRequestDialog />
                     </div>
+                    <FriendSearch users={users} />
                 </div>
-                {items.map((item) => (
+                {users.map((user) => (
                     <UserBox
-                        key={item.id}
-                        data={item}
+                        key={user.id}
+                        data={user}
                     />
                 ))}
             </div>
-        </aside>
+        </aside >
     )
 }
 
