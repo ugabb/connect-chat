@@ -1,28 +1,29 @@
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import prisma from "@/lib/prismadb";
+import { pusherServer } from "@/lib/pusher";
 import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 
 interface IParams {
-  conversationId: string;
+  conversationId?: string;
 }
-
-export default async function DELETE(
+    // utlizando o metodo POST, pois o metodo DELETE nao funciona com o app router do next
+export async function POST(
   request: NextApiRequest,
   { params }: { params: IParams }
 ) {
-    console.log("nao achou padrim")
   try {
     const { conversationId } = params;
+    console.log("nao achou padrim",conversationId);
     const currentUser = await getCurrentUser();
 
     if (!currentUser?.id) {
       return NextResponse.json("Unauthorized", { status: 401 });
     }
 
-    const existingConversation = await prisma.conversation.findUnique({
+    const existingConversation = await prisma.conversation.findFirst({
       where: {
-        id: conversationId,
+        id: conversationId as string,
       },
       include: {
         users: true,
@@ -37,11 +38,21 @@ export default async function DELETE(
 
     const deletedConversation = await prisma.conversation.deleteMany({
       where: {
-        id: conversationId,
+        id: conversationId as string,
         userIds: {
           hasSome: [currentUser.id],
         },
       },
+    });
+
+    existingConversation.users.forEach((user) => {
+      if (user.email) {
+        pusherServer.trigger(
+          user.email,
+          "conversation:remove",
+          existingConversation
+        );
+      }
     });
 
     return NextResponse.json(deletedConversation);

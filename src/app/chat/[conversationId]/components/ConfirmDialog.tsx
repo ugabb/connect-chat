@@ -27,20 +27,21 @@ const ConfirmDialog = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const onDelete = useCallback(() => {
-        setIsLoading(true)
-        console.log(conversationId)
-        axios.delete(`api/conversations/${conversationId}`)
-            .then(() => {
-                // fecha dialog
-                router.push("/chat")
-                router.refresh()
-            })
-            .catch((error) => {
-                toast.error("Alguma coisa deu errado 😔")
-                console.log(error)
-            })
-            .finally(() => setIsLoading(false))
-    }, [router, conversationId])
+        setIsLoading(true);
+    // utlizando o metodo POST, pois o metodo DELETE nao funciona com o app router do next
+        axios.post(`/api/conversations/${conversationId}`)
+          .then(() => {
+            // Close the dialog
+            toast.success("Chat excluido com sucesso");
+            router.push("/chat");
+            router.refresh();
+          })
+          .catch((error) => {
+            toast.error("Something went wrong 😔");
+            console.log(error);
+          })
+          .finally(() => setIsLoading(false));
+      }, [router, conversationId]);
 
     return (
         <>

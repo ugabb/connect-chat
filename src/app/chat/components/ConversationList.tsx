@@ -62,8 +62,19 @@ const ConversationList = ({ initialConversations, users, title }: ConversationLi
 
     }
 
+    const removeHandler = (conversation: FullConversationType) => {
+      setConversations((current) => {
+        return [...current.filter((conv) => conv.id !== conversation.id)]
+      })
+
+      if(conversationId === conversation.id){
+        router.push('/chat')
+      }
+    }
+
     pusherClient.bind("conversation:new", newHandler)
     pusherClient.bind("conversation:update", updateHandler)
+    pusherClient.bind("conversation:remove", removeHandler)
 
     return () => {
       pusherClient.unsubscribe(pusherKey);
