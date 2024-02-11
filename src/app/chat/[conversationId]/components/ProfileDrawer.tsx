@@ -18,6 +18,7 @@ import { format } from 'date-fns';
 import AvatarProfile from '@/components/Avatar';
 import ConfirmDialog from './ConfirmDialog';
 import AvatarGroup from '@/components/AvatarGroup';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
 interface ProfileDrawerProps {
     data: Conversation & {
@@ -66,8 +67,8 @@ const ProfileDrawer = ({ data }: ProfileDrawerProps) => {
     }, []);
 
     return (
-        <Drawer direction={screenWidth > 425 ? "right" : "bottom"} snapPoints={screenWidth < 425 ? ["600px"] : ["400px"]}>
-            <DrawerTrigger>
+        <Dialog>
+            <DialogTrigger>
                 <HiEllipsisHorizontal
                     size={32}
                     className="
@@ -77,12 +78,12 @@ const ProfileDrawer = ({ data }: ProfileDrawerProps) => {
           transition
         "
                 />
-            </DrawerTrigger>
-            <DrawerContent className='flex flex-col h-full'>
-                <div className="md:w-[400px] h-[600px]">
-                    <DrawerHeader className='border-b'>
-                        <DrawerTitle className='text-main'>Chat Settings</DrawerTitle>
-                    </DrawerHeader>
+            </DialogTrigger>
+            <DialogContent className='flex flex-col justify-center items-center'>
+                <div className="md:w-[400px]">
+                    <DialogHeader className='border-b'>
+                        <DialogTitle className='text-main'>Chat Settings</DialogTitle>
+                    </DialogHeader>
                     <div className="flex flex-col justify-center items-center gap-6 mt-10">
                         <div className="flex flex-col justify-center items-center gap-1">
                             {data.isGroup ?
@@ -181,8 +182,8 @@ const ProfileDrawer = ({ data }: ProfileDrawerProps) => {
                         )}
                     </dl>
                 </div>
-            </DrawerContent>
-        </Drawer>
+            </DialogContent>
+        </Dialog>
 
     )
 }

@@ -46,8 +46,6 @@ const Form = () => {
           gap-2 
           lg:gap-4 
           w-full
-          fixed
-          bottom-0
         "
         >
             <CldUploadButton
