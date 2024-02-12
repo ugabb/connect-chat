@@ -28,6 +28,14 @@ model User {
 
   accounts Account[]
   messages Message[]
+
+  sentRequests     FriendRequest[] @relation("SentFriendRequests")
+  receivedRequests FriendRequest[] @relation("ReceivedFriendRequests")
+
+  friends      User[]   @relation("UserFriends", fields: [friendsIds], references: [id])
+  friendsIds   String[] @db.ObjectId
+  friendsOf    User[]   @relation("UserFriends", fields: [friendsOfIds], references: [id])
+  friendsOfIds String[] @db.ObjectId
 }
 
 model Account {
@@ -77,4 +85,14 @@ model Message {
 
   senderId String @db.ObjectId
   sender   User   @relation(fields: [senderId], references: [id], onDelete: Cascade)
+}
+
+model FriendRequest {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  sender      User     @relation("SentFriendRequests", fields: [senderId], references: [id])
+  senderId    String   @db.ObjectId
+  recipient   User     @relation("ReceivedFriendRequests", fields: [recipientId], references: [id])
+  recipientId String   @db.ObjectId
+  status      String // e.g., "pending", "accepted", "declined"
+  createdAt   DateTime @default(now())
 }
