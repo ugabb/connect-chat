@@ -1,6 +1,6 @@
 "use client"
 
-import { User } from '@prisma/client'
+import { FriendRequest, User } from '@prisma/client'
 import React from 'react'
 import UserBox from './UserBox'
 import FriendRequestDialog from './FriendRequestDialog'
@@ -9,9 +9,12 @@ import FriendSearch from './FriendSearch'
 
 interface UserListProps {
     users: User[]
+    userFriends: User[]
+    currentUser: User
+    friendRequest: FriendRequest[]
 }
 
-const UserList = ({ users }: UserListProps) => {
+const UserList = ({ users, currentUser, friendRequest,userFriends }: UserListProps) => {
 
     return (
         <aside
@@ -41,12 +44,12 @@ const UserList = ({ users }: UserListProps) => {
               "
                         >
                             People
-                        </div>
-                        <FriendRequestDialog />
+                        </div> 
+                        <FriendRequestDialog friendRequest={friendRequest} currentUser={currentUser} />
                     </div>
-                    <FriendSearch users={users} />
+                    <FriendSearch users={users} currentUser={currentUser} />
                 </div>
-                {users.map((user) => (
+                {userFriends.map((user) => (
                     <UserBox
                         key={user.id}
                         data={user}

@@ -36,40 +36,7 @@ export async function POST(request: Request) {
         id: existingFriendRequest.id,
       },
       data: {
-        status: "accepted",
-      },
-    });
-
-
-    // Adiciona o sender à lista de amigos do recipient (usuário atual)
-    await prisma.user.update({
-      where: {
-        id: currentUser.id,
-      },
-      data: {
-        friends: {
-          connect: [
-            {
-              id: existingFriendRequest.senderId,
-            },
-          ],
-        },
-      },
-    });
-
-    // Adiciona o recipient ao sender à lista de amigos
-    await prisma.user.update({
-      where: {
-        id: existingFriendRequest.senderId,
-      },
-      data: {
-        friends: {
-          connect: [
-            {
-              id: currentUser.id,
-            },
-          ],
-        },
+        status: "rejected",
       },
     });
 
