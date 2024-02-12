@@ -36,6 +36,9 @@ model User {
   friendsIds   String[] @db.ObjectId
   friendsOf    User[]   @relation("UserFriends", fields: [friendsOfIds], references: [id])
   friendsOfIds String[] @db.ObjectId
+
+  sentGroupInviteRequest      GroupInviteRequest[] @relation("SentGroupInviteRequests")
+  receivedGroupInviteRequests GroupInviteRequest[] @relation("ReceivedGroupInviteRequests")
 }
 
 model Account {
@@ -95,6 +98,16 @@ model FriendRequest {
   senderId    String   @db.ObjectId
   recipient   User     @relation("ReceivedFriendRequests", fields: [recipientId], references: [id])
   recipientId String   @db.ObjectId
+  status      String // e.g., "pending", "accepted", "declined"
+  createdAt   DateTime @default(now())
+}
+
+model GroupInviteRequest {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  recipient   User     @relation("ReceivedGroupInviteRequests", fields: [recipientId], references: [id])
+  recipientId String   @db.ObjectId
+  sender      User?    @relation("SentGroupInviteRequests", fields: [senderId], references: [id])
+  senderId    String?  @db.ObjectId
   status      String // e.g., "pending", "accepted", "declined"
   createdAt   DateTime @default(now())
 }
