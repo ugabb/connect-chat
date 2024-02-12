@@ -10,6 +10,7 @@ import Sidebar from '@/components/siderbar/Sidebar'
 import ConversationList from './components/ConversationList'
 import getConversations from '../actions/getConversations'
 import getUsers from '../actions/getUsers'
+import getPublicGroups from '../actions/getPublicGroups'
 interface LayoutProps {
     children: ReactNode
 }
@@ -21,12 +22,13 @@ const layout = async ({ children }: LayoutProps) => {
     }
 
     const conversations = await getConversations()
+    const publicGroups = await getPublicGroups()
     const users = await getUsers()
 
     return (
         <Sidebar>
             <div className="h-full">
-                <ConversationList initialConversations={conversations} title='Messages' users={users} />
+                <ConversationList initialConversations={conversations} publicGroups={publicGroups} title='Messages' users={users} />
                 {children}
             </div>
         </Sidebar>

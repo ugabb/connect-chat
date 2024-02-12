@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     // Extrai informações do corpo da requisição
-    const { userId, isGroup, members, name } = body;
+    const { userId, isGroup, isPublic, members, name, description } = body;
 
     // Verifica se o usuário atual está autenticado
     if (!currentUser?.id || !currentUser?.email) {
@@ -30,8 +30,12 @@ export async function POST(request: Request) {
         data: {
           // Define o nome do grupo com base nos dados recebidos na requisição
           name,
+          // Define a descrição
+          description,
           // Indica que é um grupo
           isGroup,
+          // Indica se o grupo é publico
+          isPublic,
           // Conecta os usuários ao grupo utilizando o array de members
           users: {
             connect: [
@@ -116,5 +120,6 @@ export async function POST(request: Request) {
     return NextResponse.json(newConversation);
   } catch (error) {
     // Captura e trata erros, se houver algum
+    console.log(error)
   }
 }

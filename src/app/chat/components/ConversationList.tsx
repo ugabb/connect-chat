@@ -11,16 +11,17 @@ import GroupChatDialog from './GroupChatDialog';
 import { useSession } from 'next-auth/react';
 import { pusherClient } from '@/lib/pusher';
 import { find } from 'lodash';
+import PublicGroupDialog from './PublicGroupDialog';
 
 interface ConversationListProps {
   initialConversations: FullConversationType[];
+  publicGroups: FullConversationType[];
   users: User[];
   title?: string;
 }
 
-const ConversationList = ({ initialConversations, users, title }: ConversationListProps) => {
+const ConversationList = ({ initialConversations, users, title, publicGroups }: ConversationListProps) => {
   const session = useSession()
-
   const [conversations, setConversations] = useState(initialConversations)
 
   const router = useRouter();
@@ -67,7 +68,7 @@ const ConversationList = ({ initialConversations, users, title }: ConversationLi
         return [...current.filter((conv) => conv.id !== conversation.id)]
       })
 
-      if(conversationId === conversation.id){
+      if (conversationId === conversation.id) {
         router.push('/chat')
       }
     }
@@ -122,6 +123,9 @@ const ConversationList = ({ initialConversations, users, title }: ConversationLi
             data={conv}
             selected={conversationId === conv.id}
           />
+        ))}
+        {publicGroups.map((group) => (
+          <PublicGroupDialog publicGroups={group} />
         ))}
       </div>
     </aside>
