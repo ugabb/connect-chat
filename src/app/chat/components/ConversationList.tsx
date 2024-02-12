@@ -12,15 +12,18 @@ import { useSession } from 'next-auth/react';
 import { pusherClient } from '@/lib/pusher';
 import { find } from 'lodash';
 import PublicGroupDialog from './PublicGroupDialog';
+import { GroupInviteRequest } from '@prisma/client';
+import GroupInviteDropdown from './GroupInviteDronpdown';
 
 interface ConversationListProps {
   initialConversations: FullConversationType[];
   publicGroups: FullConversationType[];
   users: User[];
   title?: string;
+  groupInviteRequest: GroupInviteRequest[]
 }
 
-const ConversationList = ({ initialConversations, users, title, publicGroups }: ConversationListProps) => {
+const ConversationList = ({ initialConversations, users, title, publicGroups, groupInviteRequest }: ConversationListProps) => {
   const session = useSession()
   const [conversations, setConversations] = useState(initialConversations)
 
@@ -103,8 +106,14 @@ const ConversationList = ({ initialConversations, users, title, publicGroups }: 
           <div className="text-2xl font-bold text-neutral-800">
             Messages
           </div>
-          <div
-            className="
+          <div className="flex gap-3 items-center">
+            <div
+              className="
+              flex
+              justify-center
+              items-center
+              h-8
+              w-8
             rounded-full 
             p-2 
             bg-gray-100 
@@ -113,8 +122,22 @@ const ConversationList = ({ initialConversations, users, title, publicGroups }: 
             hover:opacity-75 
             transition
           "
-          >
-            <GroupChatDialog users={users} />
+            >
+              <GroupInviteDropdown groupInviteRequest={groupInviteRequest} />
+            </div>
+            <div
+              className="
+            rounded-full 
+            p-2 
+            bg-gray-100 
+            text-gray-600 
+            cursor-pointer 
+            hover:opacity-75 
+            transition
+          "
+            >
+              <GroupChatDialog users={users} />
+            </div>
           </div>
         </div>
         {conversations.map((conv) => (

@@ -11,6 +11,7 @@ import ConversationList from './components/ConversationList'
 import getConversations from '../actions/getConversations'
 import getUsers from '../actions/getUsers'
 import getPublicGroups from '../actions/getPublicGroups'
+import getGroupInvites from '../actions/getGroupInvites'
 interface LayoutProps {
     children: ReactNode
 }
@@ -23,12 +24,13 @@ const layout = async ({ children }: LayoutProps) => {
 
     const conversations = await getConversations()
     const publicGroups = await getPublicGroups()
+    const groupInviteRequest = await getGroupInvites()
     const users = await getUsers()
 
     return (
         <Sidebar>
             <div className="h-full">
-                <ConversationList initialConversations={conversations} publicGroups={publicGroups} title='Messages' users={users} />
+                <ConversationList initialConversations={conversations} publicGroups={publicGroups} groupInviteRequest={groupInviteRequest} title='Messages' users={users} />
                 {children}
             </div>
         </Sidebar>

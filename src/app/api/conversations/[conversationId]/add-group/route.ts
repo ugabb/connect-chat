@@ -7,13 +7,17 @@ interface IParams {
   conversationId: string;
 }
 
-interface Body {}
+interface Body {
+  senderId: string;
+}
 
 export async function PUT(request: Request, { params }: { params: IParams }) {
   try {
     // Obtém informações do usuário atual
     const currentUser = await getCurrentUser();
     const { conversationId } = params;
+    const body: Body = await request.json();
+    const { senderId } = body;
 
     // Verifica se o usuário está autenticado
     if (!currentUser?.id || !currentUser?.email) {
@@ -39,11 +43,32 @@ export async function PUT(request: Request, { params }: { params: IParams }) {
         users: true,
       },
     });
+
+    const existingGroupRequest = await prisma.groupInviteRequest.findFirst({
+      where: {
+        senderId: senderId,
+        recipientId: currentUser.id,
+      },
+    });
+
+    if (existingGroupRequest) {
+      await prisma.groupInviteRequest.update({
+        where: {
+          id: existingGroupRequest.id,
+        },
+        data: {
+          status: "accepted",
+        },
+      });
+    }
+
     return new NextResponse(JSON.stringify(updatedGroup), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
       },
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error)
+  }
 }

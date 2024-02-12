@@ -15,9 +15,11 @@ interface HeaderProps {
     conversation: Conversation & {
         users: User[]
     }
+    userFriends: User[]
+    currentUser: User
 }
 
-const Header = ({ conversation }: HeaderProps) => {
+const Header = ({ conversation, userFriends,currentUser }: HeaderProps) => {
     const otherUser = useOtherUser(conversation)
 
     const statusText = useMemo(() => {
@@ -50,8 +52,8 @@ const Header = ({ conversation }: HeaderProps) => {
                     className="
             lg:hidden 
             block 
-            text-sky-500 
-            hover:text-sky-600 
+            text-main
+            hover:opacity-50
             transition 
             cursor-pointer
           "
@@ -70,7 +72,7 @@ const Header = ({ conversation }: HeaderProps) => {
                     </div>
                 </div>
             </div>
-            <ProfileDrawer data={conversation} />
+            <ProfileDrawer data={conversation} userFriends={userFriends} currentUser={currentUser} />
         </div>
     )
 }
