@@ -147,7 +147,7 @@ const ConversationList = ({ initialConversations, users, title, publicGroups, gr
             selected={conversationId === conv.id}
           />
         ))}
-        {publicGroups.map((group) => (
+        {publicGroups?.map((group) => (
           <PublicGroupDialog publicGroups={group} />
         ))}
       </div>
