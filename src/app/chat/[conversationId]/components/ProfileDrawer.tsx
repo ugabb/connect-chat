@@ -95,25 +95,6 @@ const ProfileDrawer = ({ data: conversations, userFriends, currentUser }: Profil
     }, [conversations])
 
 
-    const [screenWidth, setScreenWidth] = useState<number>(0);
-    useEffect(() => {
-        // Function to update screen width
-        const updateScreenWidth = () => {
-            setScreenWidth(window.innerWidth);
-        };
-
-        // Initial update
-        updateScreenWidth();
-
-        // Event listener for window resize
-        window.addEventListener('resize', updateScreenWidth);
-
-        // Cleanup the event listener on component unmount
-        return () => {
-            window.removeEventListener('resize', updateScreenWidth);
-        };
-    }, []);
-
     return (
         <>
             {loading && <LoadingDialog />}
@@ -142,7 +123,8 @@ const ProfileDrawer = ({ data: conversations, userFriends, currentUser }: Profil
                                     :
                                     <AvatarProfile user={otherUser} />
                                 }
-                                <p className='text-lg'>{title}</p>
+                                <p className='text-xl font-semibold'>{title}</p>
+                                {conversations.description &&  <p className='text-sm font-ligth text-gray-400'>{conversations.description}</p>}
                                 <p className='text-xs text-gray-400'>{statusText}</p>
                             </div>
                             <div className="flex flex-col justify-center items-center gap-1">
