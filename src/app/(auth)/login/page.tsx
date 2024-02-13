@@ -16,6 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { redirect, useRouter } from 'next/navigation';
 import { PiCircleNotch } from 'react-icons/pi';
 import Link from 'next/link';
+import LoadingDialog from '@/components/LoadingDialog';
 
 type FormData = z.infer<typeof userCredentialsValidationLogin>
 
@@ -55,46 +56,51 @@ const Login = () => {
   }
 
   const onSubmit: SubmitHandler<FormData> = async (data: any) => {
-    console.log(data)
-    try {
-      const successSignIn = await signIn('credentials', {
-        email: data.email,
-        password: data.password,
-        redirect: false,
-      });
-      if (successSignIn?.ok) {
-        toast.success(`Bem vindo!`);
-        router.push("/chat")
-      }
-    } catch (error) {
-      toast.error(`Erro ao registrar usuário: ${error}`);
-    }
+    setLoading(true)
+    await signIn('credentials', {
+      email: data.email,
+      password: data.password,
+      redirect: false,
+    }).then(() => {
+      router.push("/chat")
+      toast.success(`Bem vindo!`);
+    }).catch((error) => {
+      console.log(error)
+      toast.error(`Erro ao logar usuário: ${error}`);
+      setLoading(false)
+    })
+      .finally(() => setLoading(false));
+
+
   }
 
 
   return (
-    <div className='flex flex-col justify-center items-center mx-auto p-5 max-w-sm space-y-5'>
-      <h1 className='text-xl font-bold text-main'>Sign In to Chat!</h1>
+    <>
+      {loading && <LoadingDialog />}
+      <div className='flex flex-col justify-center items-center mx-auto p-5 max-w-sm space-y-5'>
+        <h1 className='text-xl font-bold text-main'>Sign In to Chat!</h1>
 
-      <form onSubmit={handleSubmit(onSubmit)} id="loginForm" className='flex flex-col gap-5'>
-        <label className='text-sm'>
-          Email
-          <Input className='w-full' {...register("email", { required: true })} type='email' placeholder='gabriel@mail.com' />
-        </label>
-        <label className='text-sm'>
-          Password
-          <Input className='w-full' {...register("password", { required: true })} type='password' placeholder='password' />
-        </label>
-        <div className="flex items-center justify-center gap-3">
-          <Button className='flex gap-1 bg-transparent border border-main text-main hover:text-white hover:bg-main' type='submit' form='loginForm'>Sign In</Button>
-          <Button className='flex gap-1 bg-transparent border border-main text-main hover:text-white hover:bg-main' type='button' onClick={loginWithGoogle}>
-            {loading ? <PiCircleNotch className='animate-spin text-main' /> : <FaGoogle />}
-          </Button>
-        </div>
-      </form>
+        <form onSubmit={handleSubmit(onSubmit)} id="loginForm" className='flex flex-col gap-5'>
+          <label className='text-sm'>
+            Email
+            <Input className='w-full' {...register("email", { required: true })} type='email' placeholder='gabriel@mail.com' />
+          </label>
+          <label className='text-sm'>
+            Password
+            <Input className='w-full' {...register("password", { required: true })} type='password' placeholder='password' />
+          </label>
+          <div className="flex items-center justify-center gap-3">
+            <Button className='flex gap-1 bg-transparent border border-main text-main hover:text-white hover:bg-main' type='submit' form='loginForm'>Sign In</Button>
+            <Button className='flex gap-1 bg-transparent border border-main text-main hover:text-white hover:bg-main' type='button' onClick={loginWithGoogle}>
+              {loading ? <PiCircleNotch className='animate-spin text-main' /> : <FaGoogle />}
+            </Button>
+          </div>
+        </form>
 
-      <p>Não tem uma conta? <Link href={"/register"} className='text-main font-semibold hover:underline'>Crie uma conta!</Link> </p>
-    </div>
+        <p>Não tem uma conta? <Link href={"/register"} className='text-main font-semibold hover:underline'>Crie uma conta!</Link> </p>
+      </div>
+    </>
   )
 
 
