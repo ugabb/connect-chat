@@ -1,6 +1,6 @@
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import { NextResponse } from "next/server";
-
+import { pusherServer } from "@/lib/pusher";
 import prisma from "@/lib/prismadb";
 
 interface IParams {
@@ -44,15 +44,18 @@ export async function PUT(request: Request, { params }: { params: IParams }) {
       },
     });
 
+    await pusherServer.trigger(currentUser.email, "groupRequest:add", updatedGroup)
+
     const existingGroupRequest = await prisma.groupInviteRequest.findFirst({
       where: {
         senderId: senderId,
         recipientId: currentUser.id,
+        conversationId
       },
     });
 
     if (existingGroupRequest) {
-      await prisma.groupInviteRequest.update({
+      const accepted = await prisma.groupInviteRequest.update({
         where: {
           id: existingGroupRequest.id,
         },
@@ -60,7 +63,9 @@ export async function PUT(request: Request, { params }: { params: IParams }) {
           status: "accepted",
         },
       });
+      await pusherServer.trigger(currentUser.email, "groupRequest:accept", accepted)
     }
+
 
     return new NextResponse(JSON.stringify(updatedGroup), {
       status: 200,
