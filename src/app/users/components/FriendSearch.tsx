@@ -33,6 +33,7 @@ import axios from "axios"
 import toast from "react-hot-toast"
 import { useState } from "react"
 import LoadingDialog from "@/components/LoadingDialog"
+import Image from "next/image"
 
 
 interface FriendSearchProps {
@@ -54,7 +55,8 @@ export default function FriendSearch({ users, currentUser }: FriendSearchProps) 
         }).then(() => {
             toast.success("Pedido enviado com sucesso!")
         }).catch((error) => {
-            toast.error("Erro ao mandar o pedido de amizade😔")
+            console.log(error)
+            toast.error(`${error.response.statusText} 😔`)
             setLoading(false)
         }).finally(() => setLoading(false))
     }
@@ -86,17 +88,17 @@ export default function FriendSearch({ users, currentUser }: FriendSearchProps) 
                                                         ? users.find(
                                                             (user) => user.id === field.value
                                                         )?.name
-                                                        : "Select language"}
+                                                        : "Selecione um usuário"}
                                                 </Button>
                                             </FormControl>
                                         </PopoverTrigger>
                                         <PopoverContent className="w-[200px] p-0">
                                             <Command>
-                                                <CommandInput
-                                                    placeholder="Search framework..."
+                                                {/* <CommandInput
+                                                    placeholder="Procurando usuários"
                                                     className="h-9"
-                                                />
-                                                <CommandEmpty>No framework found.</CommandEmpty>
+                                                /> */}
+                                                <CommandEmpty>Usuário não achado.</CommandEmpty>
                                                 <CommandGroup>
                                                     {users.map((user) => (
                                                         <CommandItem
@@ -105,7 +107,9 @@ export default function FriendSearch({ users, currentUser }: FriendSearchProps) 
                                                             onSelect={() => {
                                                                 form.setValue("user", user.id)
                                                             }}
+                                                            className="flex gap-1 items-center cursor-pointer"
                                                         >
+                                                            {user.image && <Image className="rounded-full h-6 w-6" src={user.image} width={100} height={100} alt="profile image" />}
                                                             {user.name}
                                                             <CheckIcon
                                                                 className={cn(
@@ -121,16 +125,13 @@ export default function FriendSearch({ users, currentUser }: FriendSearchProps) 
                                             </Command>
                                         </PopoverContent>
                                     </Popover>
-                                    <FormDescription>
-                                        This is the language that will be used in the dashboard.
-                                    </FormDescription>
                                     <FormMessage />
                                 </FormItem>
                             )
                         }
                         }
                     />
-                    <Button type="submit">
+                    <Button type="submit" className='rounded-md p-2 bg-main hover:bg-main/50'>
                         Enviar pedido
                     </Button>
                 </form>

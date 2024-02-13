@@ -18,12 +18,13 @@ export async function POST(request: Request) {
 
     const existingRequest = await prisma.friendRequest.findFirst({
       where: {
-        AND: [{ senderId }, { recipientId }],
+        senderId,
+        recipientId,
       },
     });
 
     if (existingRequest)
-      return new NextResponse("Already sent", { status: 400 });
+      return new NextResponse("Already sent", { status: 400, statusText: "Voce ja mandou um pedido para essa pessoa" });
 
     const friendRequest = await prisma.friendRequest.create({
       data: {

@@ -41,7 +41,7 @@ export async function POST(request: Request) {
     });
 
     // Retorna uma resposta de sucesso
-    return new NextResponse("Friend request accepted successfully", {
+    return new NextResponse("Friend request rejected successfully", {
       status: 200,
     });
   } catch (error) {

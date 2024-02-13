@@ -102,7 +102,7 @@ const FriendRequestDialog = ({ friendRequest, currentUser }: FriendRequestDialog
                                         </div>
                                         <div className="flex justify-center items-center gap-1">
                                             <PiCheck size={20} className='text-emerald-500 hover:cursor-pointer' onClick={() => handleAcceptRequest(request.senderId)} />
-                                            <PiX size={20} className='text-main hover:cursor-pointer' onClick={handleDeclineRequest} />
+                                            <PiX size={20} className='text-main hover:cursor-pointer' onClick={() => handleDeclineRequest(request.senderId)} />
                                         </div>
                                     </DropdownMenuItem>
                                 )
