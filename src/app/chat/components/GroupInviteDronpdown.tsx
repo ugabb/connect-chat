@@ -73,6 +73,7 @@ const GroupInviteDropdown = ({ groupInviteRequest, currentUser }: GroupInviteDro
   }, [groupInviteRequest])
 
 
+  // pusher
   const pusherKey = useMemo(() => {
     return session?.data?.user.email
   }, [session?.data?.user.email])
@@ -115,7 +116,7 @@ const GroupInviteDropdown = ({ groupInviteRequest, currentUser }: GroupInviteDro
     return () => {
       pusherClient.unsubscribe(pusherKey);
       pusherClient.unbind("groupRequest:new", newHandler)
-      pusherClient.unbind("groupRequest:remove", newHandler)
+      pusherClient.unbind("groupRequest:remove", removeHandler)
       pusherClient.unbind("groupRequest:accept", acceptHandler)
     }
   }, [pusherKey])

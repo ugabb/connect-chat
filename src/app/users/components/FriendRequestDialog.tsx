@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { PiUsers, PiCheck, PiX } from "react-icons/pi"
 
@@ -12,25 +12,36 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { FriendRequest } from '@prisma/client'
+import { FriendRequest, User } from '@prisma/client'
 import Image from 'next/image'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import LoadingDialog from '@/components/LoadingDialog'
+import { useSession } from 'next-auth/react'
+import { pusherClient } from '@/lib/pusher'
+import { find } from 'lodash'
 
 interface FriendRequestDialogProps {
     friendRequest: FriendRequest[]
     currentUser: User
 }
 
+interface FriendRequestWithSender extends FriendRequest {
+    sender: {
+        id: string,
+        name: string,
+        image: string,
+    };
+}
+
 const FriendRequestDialog = ({ friendRequest, currentUser }: FriendRequestDialogProps) => {
+    const [friendRequestList, setFriendRequestList] = useState<FriendRequest[]>(friendRequest)
+
     const [loading, setLoading] = useState<boolean>(false)
+    const [statusLength, setStatusLength] = useState<number>(0)
+
     const router = useRouter()
-    const statusLengthCal = () => {
-        return friendRequest.filter(status => (status.recipientId === currentUser.id) && (status.status === "pending")).length
-    }
-    const statusLength = statusLengthCal()
 
     const handleAcceptRequest = useCallback((userId: string) => {
         setLoading(true)
@@ -59,6 +70,47 @@ const FriendRequestDialog = ({ friendRequest, currentUser }: FriendRequestDialog
                 setLoading(false)
             }).finally(() => { setLoading(false) })
     }, [friendRequest])
+
+    // pusher
+    const pusherKey = useMemo(() => {
+        return currentUser?.id
+    }, [currentUser?.id])
+
+    useEffect(() => {
+        if (!pusherKey) return;
+        console.log('pusher client', pusherKey)
+        pusherClient.subscribe(pusherKey)
+
+        const newHandler = (friendReq: FriendRequest) => {
+            console.log('Received new friend request:', friendReq);
+            setFriendRequestList((current: any) => {
+                if (find(current, { id: friendReq.id })) {
+                    return current
+                }
+
+                return [friendReq, ...current]
+            })
+        }
+
+        pusherClient.bind("friendRequest:new", newHandler)
+
+
+        return () => {
+            pusherClient.unsubscribe(pusherKey);
+            pusherClient.unbind("friendRequest:new", newHandler)
+            // pusherClient.unbind("friendRequest:remove", removeHandler)
+            // pusherClient.unbind("friendRequest:accept", acceptHandler)
+        }
+    }, [pusherKey])
+
+
+    useEffect(() => {
+        const statusLengthCal = () => {
+            friendRequestList.map((friendRe) => console.log(friendRe))
+            return friendRequestList?.filter(request => (request.recipientId === currentUser.id) && (request.status === "pending")).length
+        }
+        setStatusLength(statusLengthCal())
+    }, [friendRequestList])
 
     return (
         <>
@@ -92,27 +144,22 @@ const FriendRequestDialog = ({ friendRequest, currentUser }: FriendRequestDialog
                         <DropdownMenuLabel>Pedidos de Amizade</DropdownMenuLabel>
                         <DropdownMenuSeparator />
 
-                        {friendRequest?.map((request) => {
-                            if (request.status === "pending") {
-                                return (
-                                    <DropdownMenuItem key={request.id} className='flex justify-between items-center gap-5'>
-                                        <div className="flex gap-1 items-center">
-                                            <Image className='h-8 w-8 rounded-full' src={request?.sender.image} width={100} height={100} alt='profile image' />
-                                            <p>{request?.sender.name}</p>
-                                        </div>
-                                        <div className="flex justify-center items-center gap-1">
-                                            <PiCheck size={20} className='text-emerald-500 hover:cursor-pointer' onClick={() => handleAcceptRequest(request.senderId)} />
-                                            <PiX size={20} className='text-main hover:cursor-pointer' onClick={() => handleDeclineRequest(request.senderId)} />
-                                        </div>
-                                    </DropdownMenuItem>
-                                )
-                            }else{
-                                return (
-                                    <p className='text-sm p-5'>Sem pedidos de amizade 😔</p>
-                                )
-                            }
-                        })}
-                        {!friendRequest.length && <p className='text-sm p-5'>Sem pedidos de amizade 😔</p>}
+                        {friendRequestList?.filter((request: any) => request.status === "pending" && request.recipientId === currentUser.id).map((request) => (
+                            <DropdownMenuItem key={request.id} className='flex justify-between items-center gap-5'>
+                                <div className="flex gap-1 items-center">
+                                    <Image className='h-8 w-8 rounded-full' src={request.sender.image} width={100} height={100} alt='profile image' />
+                                    <p>{request?.sender.name}</p>
+                                </div>
+                                <div className="flex justify-center items-center gap-1">
+                                    <PiCheck size={20} className='text-emerald-500 hover:cursor-pointer' onClick={() => handleAcceptRequest(request.senderId)} />
+                                    <PiX size={20} className='text-main hover:cursor-pointer' onClick={() => handleDeclineRequest(request.senderId)} />
+                                </div>
+                            </DropdownMenuItem>
+                        ))}
+
+                        {friendRequestList?.filter(request => request.status === "pending" && request.recipientId === currentUser.id).length === 0 && (
+                            <p className='text-sm p-5'>Sem pedidos de amizade pendentes 😔</p>
+                        )}
                     </DropdownMenuContent>
                 </DropdownMenu>
 
