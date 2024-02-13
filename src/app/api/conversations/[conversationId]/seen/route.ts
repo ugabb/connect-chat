@@ -44,6 +44,10 @@ export async function POST(request: Request, { params }: { params: IParams }) {
     // Obtém a última mensagem da conversa
     const lastMessage = conversation.messages[conversation.messages.length - 1];
 
+    if(!lastMessage){
+      return new NextResponse("Without last message")
+    }
+
     // Atualiza quem viu a última mensagem no banco de dados
     const updatedMessage = await prisma.message.update({
       where: {
