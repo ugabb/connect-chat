@@ -14,7 +14,7 @@ export async function POST(
 ) {
   try {
     const { conversationId } = params;
-    console.log("nao achou padrim",conversationId);
+
     const currentUser = await getCurrentUser();
 
     if (!currentUser?.id) {
@@ -35,6 +35,12 @@ export async function POST(
         status: 404,
       });
     }
+
+    const deletedGroupInviteRequests = await prisma.groupInviteRequest.deleteMany({
+      where: {
+        conversationId: conversationId as string,
+      },
+    });
 
     const deletedConversation = await prisma.conversation.deleteMany({
       where: {
