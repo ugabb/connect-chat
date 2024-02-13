@@ -1,5 +1,6 @@
+import getCurrentUser from "@/app/actions/getCurrentUser";
 import prisma from "@/lib/prismadb";
-import { connect } from "http2";
+import { pusherServer } from "@/lib/pusher";
 import { NextResponse } from "next/server";
 
 interface IBody {
@@ -11,6 +12,7 @@ interface IBody {
 // Função assíncrona que lida com requisições HTTP do tipo POST
 export async function POST(request: Request) {
   try {
+    const currentUser = await getCurrentUser();
     // Obtém o corpo da requisição como JSON
     const body: IBody = await request.json();
 
@@ -38,8 +40,23 @@ export async function POST(request: Request) {
         sender: { connect: { id: senderId } },
         recipient: { connect: { id: recipientId } },
       } as any,
+      include: {
+        conversation: true,
+      },
     });
 
+    const userRecipient = await prisma.user.findFirst({
+      where: {
+        id: recipientId,
+      },
+    });
+
+    await pusherServer.trigger(
+      userRecipient?.email,
+      "groupRequest:new",
+      groupRequest
+    );
+    console.log(groupRequest);
     return NextResponse.json({
       message: "Group invite request sent",
       groupRequest,
