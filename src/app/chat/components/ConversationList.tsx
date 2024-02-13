@@ -19,11 +19,12 @@ interface ConversationListProps {
   initialConversations: FullConversationType[];
   publicGroups: FullConversationType[];
   users: User[];
+  currentUser: User;
   title?: string;
   groupInviteRequest: GroupInviteRequest[]
 }
 
-const ConversationList = ({ initialConversations, users, title, publicGroups, groupInviteRequest }: ConversationListProps) => {
+const ConversationList = ({ initialConversations, users, title, currentUser, publicGroups, groupInviteRequest }: ConversationListProps) => {
   const session = useSession()
   const [conversations, setConversations] = useState(initialConversations)
 
@@ -38,7 +39,7 @@ const ConversationList = ({ initialConversations, users, title, publicGroups, gr
   useEffect(() => {
     if (!pusherKey) return;
 
-    pusherClient.subscribe(pusherKey)
+    pusherClient.subscribe(pusherKey) // email
 
     // automaticamente renderizar uma conversa nova iniciada na lista de conversas
     const newHandler = (conversation: FullConversationType) => {
@@ -76,9 +77,20 @@ const ConversationList = ({ initialConversations, users, title, publicGroups, gr
       }
     }
 
+    const groupUpdateHandler = (conversation: FullConversationType) => {
+      setConversations((current) => {
+        if (find(current, { id: conversation.id })) {
+          return current
+        }
+
+        return [conversation, ...current]
+      })
+    }
+
     pusherClient.bind("conversation:new", newHandler)
     pusherClient.bind("conversation:update", updateHandler)
     pusherClient.bind("conversation:remove", removeHandler)
+    pusherClient.bind("groupRequest:add", groupUpdateHandler)
 
     return () => {
       pusherClient.unsubscribe(pusherKey);
@@ -123,7 +135,7 @@ const ConversationList = ({ initialConversations, users, title, publicGroups, gr
             transition
           "
             >
-              <GroupInviteDropdown groupInviteRequest={groupInviteRequest} />
+              <GroupInviteDropdown currentUser={currentUser} groupInviteRequest={groupInviteRequest} />
             </div>
             <div
               className="

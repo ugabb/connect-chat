@@ -12,6 +12,7 @@ import getConversations from '../actions/getConversations'
 import getUsers from '../actions/getUsers'
 import getPublicGroups from '../actions/getPublicGroups'
 import getGroupInvites from '../actions/getGroupInvites'
+import getCurrentUser from '../actions/getCurrentUser'
 interface LayoutProps {
     children: ReactNode
 }
@@ -22,6 +23,7 @@ const layout = async ({ children }: LayoutProps) => {
         redirect(`/login`)
     }
 
+    const currentUser = await getCurrentUser()
     const conversations = await getConversations()
     const publicGroups = await getPublicGroups()
     const groupInviteRequest = await getGroupInvites()
@@ -30,7 +32,7 @@ const layout = async ({ children }: LayoutProps) => {
     return (
         <Sidebar>
             <div className="h-full">
-                <ConversationList initialConversations={conversations} publicGroups={publicGroups} groupInviteRequest={groupInviteRequest} title='Messages' users={users} />
+                <ConversationList currentUser={currentUser} initialConversations={conversations} publicGroups={publicGroups} groupInviteRequest={groupInviteRequest} title='Messages' users={users} />
                 {children}
             </div>
         </Sidebar>
