@@ -16,7 +16,11 @@ import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import { PiSignOut } from 'react-icons/pi';
 import Link from 'next/link';
+import { User } from '@prisma/client';
 
+interface SettingsProps {
+    currentUser: User
+}
 
 
 const SettingsDropdown = ({ currentUser }: SettingsProps) => {
@@ -30,7 +34,7 @@ const SettingsDropdown = ({ currentUser }: SettingsProps) => {
                 </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className='ml-4'>
-                <DropdownMenuLabel className='text-md'>{currentUser.name}</DropdownMenuLabel>
+                <DropdownMenuLabel className='text-md'>{currentUser?.name}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className='text-md text-gray-60'>
                     <Link href={"/settings"}>
