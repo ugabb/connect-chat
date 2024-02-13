@@ -115,7 +115,7 @@ const ConversationBox = ({ data, selected }: ConversationBoxProps) => {
                 truncate 
                 text-sm
                 `,
-                            hasSeen ? 'text-gray-500' : 'text-black font-medium'
+                            hasSeen ? 'text-gray-500' : 'text-black font-semibold'
                         )}>
                         {lastMessageText}
                     </p>
