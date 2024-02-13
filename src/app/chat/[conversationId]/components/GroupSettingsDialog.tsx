@@ -49,7 +49,7 @@ interface ProfileDrawerProps {
     currentUser: User
 }
 
-const ProfileDrawer = ({ data: conversations, userFriends, currentUser }: ProfileDrawerProps) => {
+const GroupSettingsDialog = ({ data: conversations, userFriends, currentUser }: ProfileDrawerProps) => {
 
     const [loading, setLoading] = useState(false)
 
@@ -89,7 +89,7 @@ const ProfileDrawer = ({ data: conversations, userFriends, currentUser }: Profil
 
     const statusText = useMemo(() => {
         if (conversations.isGroup) {
-            return `${conversations.users.length} members`
+            return `${conversations.users.length} membros`
         }
         return "Active"
     }, [conversations])
@@ -126,6 +126,7 @@ const ProfileDrawer = ({ data: conversations, userFriends, currentUser }: Profil
                                 <p className='text-xl font-semibold'>{title}</p>
                                 {conversations.description &&  <p className='text-sm font-ligth text-gray-400'>{conversations.description}</p>}
                                 <p className='text-xs text-gray-400'>{statusText}</p>
+                                <p className='text-xs text-gray-400'>{conversations.isPublic ? "Público" : "Privado"}</p>
                             </div>
                             <div className="flex flex-col justify-center items-center gap-1">
                                 <ConfirmDialog />
@@ -216,16 +217,16 @@ const ProfileDrawer = ({ data: conversations, userFriends, currentUser }: Profil
                         </dl>
                     </div>
                     <div className="flex flex-col gap-3">
-                        {conversations.isGroup &&
+                        {(conversations.isGroup &&  !conversations.isPublic) &&
                             <Form {...form}>
                                 <h1 className='font-medium'>Convide mais amigos para o grupo!😁</h1>
-                                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col justify-center space-y-6">
                                     <FormField
                                         control={form.control}
                                         name="recipientId"
                                         render={({ field }) => {
                                             return (
-                                                <FormItem className="flex flex-col">
+                                                <FormItem className="flex flex-col items-center">
                                                     <FormLabel>Enviar pedido de amizade</FormLabel>
                                                     <Popover>
                                                         <PopoverTrigger asChild>
@@ -283,7 +284,7 @@ const ProfileDrawer = ({ data: conversations, userFriends, currentUser }: Profil
                                         }
                                         }
                                     />
-                                    <Button type="submit">
+                                    <Button type="submit" className='rounded-md p-2 bg-main hover:bg-main/50'>
                                         Enviar pedido
                                     </Button>
                                 </form>
@@ -297,4 +298,4 @@ const ProfileDrawer = ({ data: conversations, userFriends, currentUser }: Profil
     )
 }
 
-export default ProfileDrawer
+export default GroupSettingsDialog

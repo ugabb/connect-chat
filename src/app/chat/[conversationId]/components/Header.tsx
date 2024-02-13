@@ -8,7 +8,7 @@ import React, { useMemo } from 'react'
 
 import { HiChevronLeft } from 'react-icons/hi'
 import { HiEllipsisHorizontal } from 'react-icons/hi2';
-import ProfileDrawer from './ProfileDrawer'
+import GroupSettingsDialog from './GroupSettingsDialog'
 import AvatarGroup from '@/components/AvatarGroup'
 
 interface HeaderProps {
@@ -72,7 +72,7 @@ const Header = ({ conversation, userFriends,currentUser }: HeaderProps) => {
                     </div>
                 </div>
             </div>
-            <ProfileDrawer data={conversation} userFriends={userFriends} currentUser={currentUser} />
+            <GroupSettingsDialog data={conversation} userFriends={userFriends} currentUser={currentUser} />
         </div>
     )
 }
