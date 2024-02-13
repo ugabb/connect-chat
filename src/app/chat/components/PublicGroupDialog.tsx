@@ -69,13 +69,13 @@ const PublicGroupDialog = ({ publicGroups }: PublicGroupDialog) => {
                         <div className="min-w-0 flex-1">
                             <div className="focus:outline-none">
                                 <span className="absolute inset-0" aria-hidden="true" />
-                                <div className="flex justify-between items-center mb-1">
+                                <div className="flex justify-between mb-1">
                                     <p className="flex gap-1 items-center text-md font-medium text-gray-900">
-                                        {publicGroups.name}<MdOutlinePublic />
+                                        {publicGroups.name}
                                     </p>
-
+                                    <MdOutlinePublic />
                                 </div>
-                                <p className='text-xs font-light text-gray-400'>
+                                <p className='text-xs text-left font-light text-gray-400'>
                                     {publicGroups.description}
                                 </p>
                             </div>
