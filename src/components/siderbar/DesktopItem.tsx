@@ -1,3 +1,6 @@
+import getCurrentUser from '@/app/actions/getCurrentUser';
+import getFriendRequest from '@/app/actions/getFriendRequest';
+import { FriendRequest } from '@prisma/client';
 import clsx from 'clsx';
 import Link from "next/link";
 
@@ -5,27 +8,20 @@ interface DesktopItemProps {
   label: string;
   icon: any;
   href: string;
-  onClick?: () => void;
   active?: boolean;
 }
+
+
 
 const DesktopItem: React.FC<DesktopItemProps> = ({
   label,
   href,
   icon: Icon,
   active,
-  onClick
 }) => {
-  const handleClick = () => {
-    if (onClick) {
-      return onClick();
-    }
-  };
-
-
 
   return (
-    <li onClick={handleClick} key={label} className='relative'>
+    <li key={label} className='relative'>
       <Link
         href={href}
         className={clsx(`
@@ -45,7 +41,7 @@ const DesktopItem: React.FC<DesktopItemProps> = ({
         )}
       >
         <Icon className="h-6 w-6 shrink-0" aria-hidden="true" />
-        {label === "Users" &&
+        {/* {label === "Users" &&
           <span
             className="
             absolute 
@@ -64,9 +60,9 @@ const DesktopItem: React.FC<DesktopItemProps> = ({
             text-white
           "
           >
-            3
+         
           </span>
-        }
+        } */}
         <span className="sr-only">{label}</span>
       </Link>
     </li>

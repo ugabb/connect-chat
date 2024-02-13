@@ -4,8 +4,15 @@ import useConversation from '@/app/hooks/useConversation';
 import useRoutes from '@/app/hooks/useRoutes';
 import React from 'react'
 import MobileItem from './MobileItem';
+import Image from 'next/image';
+import { useSession } from 'next-auth/react';
+import { User } from '@prisma/client';
 
-const MobileFooter = () => {
+interface MobileFooter {
+    currentUser: User
+}
+
+const MobileFooter = ({ currentUser }: MobileFooter) => {
     const routes = useRoutes();
     const { isOpen } = useConversation();
 
@@ -14,7 +21,7 @@ const MobileFooter = () => {
     }
     return (
         <div
-        className="
+            className="
         fixed 
         justify-between 
         w-full 
@@ -33,7 +40,6 @@ const MobileFooter = () => {
                     href={route.href}
                     active={route.active}
                     icon={route.icon}
-                    onClick={route.onClick}
                 />
             ))}
         </div>
