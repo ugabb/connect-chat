@@ -9,6 +9,7 @@ import { format } from "date-fns";
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { useCallback, useMemo } from 'react'
+import { MdOutlinePublic } from 'react-icons/md';
 
 
 interface ConversationBoxProps {
@@ -103,6 +104,11 @@ const ConversationBox = ({ data, selected }: ConversationBoxProps) => {
                                 {format(new Date(lastMessage.createdAt), 'p')}
                             </p>
                         )}
+                        {data.isPublic &&
+                            <p className="flex gap-1 items-center text-md font-medium text-gray-900">
+                                <MdOutlinePublic />
+                            </p>
+                        }
                     </div>
                     <p
                         className={clsx(`
