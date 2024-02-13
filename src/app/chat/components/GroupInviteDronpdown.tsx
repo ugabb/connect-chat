@@ -31,11 +31,11 @@ const GroupInviteDropdown = ({ groupInviteRequest }: GroupInviteDropdown) => {
 
   const handleAcceptRequest = useCallback((conversationId: string, senderId: string) => {
     setLoading(true)
-    console.log(conversationId,senderId)
+    console.log(conversationId, senderId)
     axios.put(`/api/conversations/${conversationId}/add-group`
-    , { senderId: senderId })
+      , { senderId: senderId })
       .then(() => {
-        toast.success("Pedido aceito com sucesso!")
+        toast.success("Convite aceito com sucesso!")
         router.refresh()
       }).catch((error) => {
         toast.error("Erro ao aceitar o pedido😔")
@@ -44,10 +44,23 @@ const GroupInviteDropdown = ({ groupInviteRequest }: GroupInviteDropdown) => {
       }).finally(() => { setLoading(false) })
   }, [groupInviteRequest])
 
-  const handleDeclineRequest = () => { }
+  const handleDeclineRequest = useCallback((conversationId: string, senderId: string) => {
+    setLoading(true)
+    console.log(conversationId, senderId)
+    axios.post(`/api/conversations/${conversationId}/reject`
+      , { senderId: senderId })
+      .then(() => {
+        toast.success("Pedido rejeitado com sucesso!")
+        router.refresh()
+      }).catch((error) => {
+        toast.error("Erro ao rejeitar o pedido😔")
+        console.log(error)
+        setLoading(false)
+      }).finally(() => { setLoading(false) })
+  }, [groupInviteRequest])
 
   const statusLengthCal = () => {
-    return groupInviteRequest.filter(status => (status.recipientId === status.recipientId) && (status.status === "pending")).length
+    return groupInviteRequest?.filter(status => (status.recipientId === status.recipientId) && (status.status === "pending")).length
   }
   const statusLength = statusLengthCal()
 
@@ -91,17 +104,13 @@ const GroupInviteDropdown = ({ groupInviteRequest }: GroupInviteDropdown) => {
                   </div>
                   <div className="flex justify-center items-center gap-1">
                     <PiCheck size={20} className='text-emerald-500 hover:cursor-pointer' onClick={() => handleAcceptRequest(request?.conversationId, request.senderId)} />
-                    <PiX size={20} className='text-main hover:cursor-pointer' onClick={handleDeclineRequest} />
+                    <PiX size={20} className='text-main hover:cursor-pointer' onClick={() => handleDeclineRequest(request.conversationId, request.senderId)} />
                   </div>
                 </DropdownMenuItem>
               )
-            } else {
-              return (
-                <p className='text-sm p-5'>Sem convites de grupo 😔</p>
-              )
             }
           })}
-          {!groupInviteRequest.length && <p className='text-sm p-5'>Sem pedidos de amizade 😔</p>}
+          {!groupInviteRequest?.length && <p className='text-sm p-5'>Sem convites de grupo eee😔</p>}
         </DropdownMenuContent>
       </DropdownMenu>
 

@@ -34,6 +34,7 @@ import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
+import LoadingDialog from '@/components/LoadingDialog'
 
 
 interface GroupChatDialogProps {
@@ -65,7 +66,7 @@ const GroupChatDialog = ({ users }: GroupChatDialogProps) => {
     })
 
     const onSubmit: SubmitHandler<IGroup> = (data: IGroup) => {
-        // setloading(true)
+        setloading(true)
         data.members = membersList
         // data.isPublic = data.isPublic === "on" ? true : false
         if (data.members.length < 2) {
@@ -81,8 +82,12 @@ const GroupChatDialog = ({ users }: GroupChatDialogProps) => {
                     toast.success("Grupo criado com sucesso!")
                     router.refresh()
                     form.reset()
+                    setMembersList([])
                 })
-                .catch(() => toast.error("Algo deu errado em criar o grupo 😔"))
+                .catch(() => {
+                    toast.error("Algo deu errado em criar o grupo 😔")
+                    setloading(false)
+                })
                 .finally(() => setloading(false))
         }
     }
@@ -94,103 +99,104 @@ const GroupChatDialog = ({ users }: GroupChatDialogProps) => {
     }
 
     return (
-        <Dialog>
-            <DialogTrigger className='flex justify-center items-center h-5 w-5 rounded-full'>
-                <MdOutlineGroupAdd size={20} />
-            </DialogTrigger>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>Criar grupo</DialogTitle>
-                    <DialogDescription>
-                        Crie grupo com os seus amigos!
-                    </DialogDescription>
-                </DialogHeader>
+        <>
+            {loading && <LoadingDialog />}
+            <Dialog>
+                <DialogTrigger className='flex justify-center items-center h-5 w-5 rounded-full'>
+                    <MdOutlineGroupAdd size={20} />
+                </DialogTrigger>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Criar grupo</DialogTitle>
+                        <DialogDescription>
+                            Crie grupo com os seus amigos!
+                        </DialogDescription>
+                    </DialogHeader>
 
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)}>
-                        <div className="border-b border-gray-900/10 pb-12">
-                            <div className="mt-10 flex flex-col gap-y-8">
-                                <label className='text-md text-slate-800'>
-                                    Nome do Grupo
-                                    <Input
-                                        className='w-2/3'
-                                        // disabled={loading}
-                                        {...form.register("name", { required: "Grupo precisa de um nome" })}
-                                    />
-                                    {form.formState.errors.name &&
-                                        <span className='text-sm text-red-500'>
-                                            {form.formState.errors?.name?.message}
-                                        </span>
-                                    }
-                                </label>
-                                <label className='text-md text-slate-800'>
-                                    Descrição do Grupo
-                                    <Textarea
-                                        // disabled={loading}
-                                        {...form.register("description", { min: 20 })}
-                                    />
-                                    {form.formState.errors.name &&
-                                        <span className='text-sm text-red-500'>
-                                            {form.formState.errors?.description?.message}
-                                        </span>
-                                    }
-                                </label>
+                    <Form {...form}>
+                        <form onSubmit={form.handleSubmit(onSubmit)}>
+                            <div className="border-b border-gray-900/10 pb-12">
+                                <div className="mt-10 flex flex-col gap-y-8">
+                                    <label className='text-md text-slate-800'>
+                                        Nome do Grupo
+                                        <Input
+                                            className='w-2/3'
+                                            disabled={loading}
+                                            {...form.register("name", { required: "Grupo precisa de um nome" })}
+                                        />
+                                        {form.formState.errors.name &&
+                                            <span className='text-sm text-red-500'>
+                                                {form.formState.errors?.name?.message}
+                                            </span>
+                                        }
+                                    </label>
+                                    <label className='text-md text-slate-800'>
+                                        Descrição do Grupo
+                                        <Textarea
+                                            disabled={loading}
+                                            {...form.register("description", { min: 20 })}
+                                        />
+                                        {form.formState.errors.name &&
+                                            <span className='text-sm text-red-500'>
+                                                {form.formState.errors?.description?.message}
+                                            </span>
+                                        }
+                                    </label>
 
-                                <div className="flex items-center space-x-2">
-                                    <FormField
-                                        control={form.control}
-                                        name='isPublic'
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormControl>
-                                                    <Switch
-                                                        onCheckedChange={field.onChange}
-                                                        checked={field.value}
-                                                    />
-                                                </FormControl>
-                                            </FormItem>
-                                        )}
-                                    />
-
-
-                                    <Label htmlFor="isPublic">Grupo Público</Label>
-
-                                </div>
-
-                                <Select onValueChange={(value) => {
-                                    if (value !== "") setMembersList(prev => [...prev, { userId: value }])
-                                }}>
-                                    <SelectTrigger className="w-2/3">
-                                        <SelectValue placeholder="Selecione alguém" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {users.map((user) => (
-                                            <SelectItem value={user.id}>{user.name}</SelectItem>
-                                        ))}
-                                        <SelectItem value="7892525hn2bnf2">Naruto</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                <div className='flex flex-wrap gap-1'>
-                                    {
-                                        membersList.map((selected) => {
-                                            const selectedUser = users.find((user) => user.id === selected.userId)
-
-                                            if (selectedUser) {
-                                                return (
-                                                    <Badge variant="default" className='w-fit bg-main flex gap-1 items-center'>
-                                                        {selectedUser.name}
-                                                        <PiX className='cursor-pointer' onClick={() => handleRemoveMember(selectedUser.id)} />
-                                                    </Badge>
-                                                )
-                                            }
-                                            return null
-                                        })
-                                    }
-
-                                </div>
+                                    <div className="flex items-center space-x-2">
+                                        <FormField
+                                            control={form.control}
+                                            name='isPublic'
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormControl>
+                                                        <Switch
+                                                            onCheckedChange={field.onChange}
+                                                            checked={field.value}
+                                                        />
+                                                    </FormControl>
+                                                </FormItem>
+                                            )}
+                                        />
 
 
-                                {/* <Select
+                                        <Label htmlFor="isPublic">Grupo Público</Label>
+
+                                    </div>
+
+                                    <Select onValueChange={(value) => {
+                                        if (value !== "") setMembersList(prev => [...prev, { userId: value }])
+                                    }}>
+                                        <SelectTrigger className="w-2/3">
+                                            <SelectValue placeholder="Selecione alguém" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {users.map((user) => (
+                                                <SelectItem value={user.id}>{user.name}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <div className='flex flex-wrap gap-1'>
+                                        {
+                                            membersList.map((selected) => {
+                                                const selectedUser = users.find((user) => user.id === selected.userId)
+
+                                                if (selectedUser) {
+                                                    return (
+                                                        <Badge variant="default" className='w-fit bg-main flex gap-1 items-center'>
+                                                            {selectedUser.name}
+                                                            <PiX className='cursor-pointer' onClick={() => handleRemoveMember(selectedUser.id)} />
+                                                        </Badge>
+                                                    )
+                                                }
+                                                return null
+                                            })
+                                        }
+
+                                    </div>
+
+
+                                    {/* <Select
                             disabled={isLoading}
                             label="Members"
                             options={users.map((user) => ({
@@ -202,35 +208,36 @@ const GroupChatDialog = ({ users }: GroupChatDialogProps) => {
                             })}
                             value={members}
                         /> */}
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="mt-6 flex items-center justify-end gap-x-6">
-                            <DialogClose>
-                                <Button
-                                    disabled={loading}
-                                    type="button"
-                                    className='bg-transparent text-black hover:text-main hover:bg-transparent '
-                                >
-                                    Cancel
-                                </Button>
-                            </DialogClose>
+                            <div className="mt-6 flex items-center justify-end gap-x-6">
+                                <DialogClose>
+                                    <Button
+                                        disabled={loading}
+                                        type="button"
+                                        className='bg-transparent text-black hover:text-main hover:bg-transparent '
+                                    >
+                                        Cancel
+                                    </Button>
+                                </DialogClose>
 
-                            {loading
-                                ?
-                                <PiCircleNotch size={20} className='animate-spin text-main' />
-                                :
-                                <Button disabled={loading} type="submit" className='bg-main hover:bg-main hover:scale-105'>
-                                    Create
-                                </Button>
-                            }
-                        </div>
+                                {loading
+                                    ?
+                                    <PiCircleNotch size={20} className='animate-spin text-main' />
+                                    :
+                                    <Button disabled={loading} type="submit" className='bg-main hover:bg-main hover:scale-105'>
+                                        Create
+                                    </Button>
+                                }
+                            </div>
 
-                    </form>
-                </Form>
+                        </form>
+                    </Form>
 
-            </DialogContent >
-        </Dialog >
+                </DialogContent >
+            </Dialog >
+        </>
 
     )
 }
