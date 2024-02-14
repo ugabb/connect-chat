@@ -38,6 +38,7 @@ interface FriendRequestWithSender extends FriendRequest {
 const FriendRequestDialog = ({ friendRequest, currentUser }: FriendRequestDialogProps) => {
     const [friendRequestList, setFriendRequestList] = useState<FriendRequest[]>(friendRequest)
 
+
     const [loading, setLoading] = useState<boolean>(false)
     const [statusLength, setStatusLength] = useState<number>(0)
 
@@ -96,7 +97,7 @@ const FriendRequestDialog = ({ friendRequest, currentUser }: FriendRequestDialog
             console.log(acceptedRequest)
             // Atualize a lista após aceitar o pedido
             setFriendRequestList((current) => current.filter(request => request.id !== acceptedRequest.id));
-          };
+        };
 
         pusherClient.bind("friendRequest:new", newHandler)
         pusherClient.bind("friendRequest:accept", acceptHandler)
@@ -113,8 +114,7 @@ const FriendRequestDialog = ({ friendRequest, currentUser }: FriendRequestDialog
 
     useEffect(() => {
         const statusLengthCal = () => {
-            friendRequestList?.map((friendRe) => console.log(friendRe))
-            return friendRequestList?.filter(request => (request.recipientId === currentUser.id) && (request.status === "pending")).length
+            return friendRequestList?.filter(request => (request?.recipientId === currentUser?.id) && (request?.status === "pending")).length
         }
         setStatusLength(statusLengthCal())
     }, [friendRequestList])
@@ -151,20 +151,23 @@ const FriendRequestDialog = ({ friendRequest, currentUser }: FriendRequestDialog
                         <DropdownMenuLabel>Pedidos de Amizade</DropdownMenuLabel>
                         <DropdownMenuSeparator />
 
-                        {friendRequestList?.filter((request: any) => request.status === "pending" && request.recipientId === currentUser.id).map((request) => (
-                            <DropdownMenuItem key={request.id} className='flex justify-between items-center gap-5'>
+                        {friendRequestList?.filter((request: any) => request?.status === "pending" && request?.recipientId === currentUser?.id).map((request) => (
+                            <DropdownMenuItem key={request?.id} className='flex justify-between items-center gap-5'>
                                 <div className="flex gap-1 items-center">
-                                    <Image className='h-8 w-8 rounded-full object-cover' src={request.sender.image} width={100} height={100} alt='profile image' />
-                                    <p>{request?.sender.name}</p>
+                                    {/* @ts-ignore */}
+                                    {request?.sender?.image && <Image className='h-8 w-8 rounded-full object-cover' src={request?.sender?.image} width={100} height={100} alt='profile image' />}
+
+                                    {/* @ts-ignore */}
+                                    <p>{request?.sender?.name}</p>
                                 </div>
                                 <div className="flex justify-center items-center gap-1">
-                                    <PiCheck size={20} className='text-emerald-500 hover:cursor-pointer' onClick={() => handleAcceptRequest(request.senderId)} />
-                                    <PiX size={20} className='text-main hover:cursor-pointer' onClick={() => handleDeclineRequest(request.senderId)} />
+                                    <PiCheck size={20} className='text-emerald-500 hover:cursor-pointer' onClick={() => handleAcceptRequest(request?.senderId)} />
+                                    <PiX size={20} className='text-main hover:cursor-pointer' onClick={() => handleDeclineRequest(request?.senderId)} />
                                 </div>
                             </DropdownMenuItem>
                         ))}
 
-                        {friendRequestList?.filter(request => request.status === "pending" && request.recipientId === currentUser.id).length === 0 && (
+                        {friendRequestList?.filter(request => request?.status === "pending" && request?.recipientId === currentUser?.id).length === 0 && (
                             <p className='text-sm p-5'>Sem pedidos de amizade pendentes 😔</p>
                         )}
                     </DropdownMenuContent>
