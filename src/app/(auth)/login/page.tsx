@@ -61,9 +61,14 @@ const Login = () => {
       email: data.email,
       password: data.password,
       redirect: false,
-    }).then(() => {
-      router.push("/chat")
-      toast.success(`Bem vindo!`);
+    }).then((callback) => {
+      if (callback?.ok) {
+        router.push("/chat")
+        toast.success(`Bem vindo!`);
+      }else if(callback?.error){
+        toast.error(callback.error);
+        console.log(callback.error)
+      }
     }).catch((error) => {
       console.log(error)
       toast.error(`Erro ao logar usuário: ${error}`);
