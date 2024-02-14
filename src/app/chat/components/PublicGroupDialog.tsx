@@ -29,8 +29,9 @@ const PublicGroupDialog = ({ publicGroups }: PublicGroupDialog) => {
     const router = useRouter()
 
     const handlerAddToGroup = useCallback((conversationId: string) => {
+        console.log(conversationId)
         setLoading(true)
-        axios.put(`/api/conversations/${conversationId}/add-group`)
+        axios.put(`/api/conversations/${conversationId}/enter-public-group`)
             .then(() => {
                 setLoading(false)
                 toast.success("Você agora faz parte do grupo!😁")
@@ -53,7 +54,7 @@ const PublicGroupDialog = ({ publicGroups }: PublicGroupDialog) => {
                         className={clsx(`
           w-full 
           relative 
-          flex 
+          flex
           items-center 
           space-x-3 
           p-3 
@@ -66,7 +67,7 @@ const PublicGroupDialog = ({ publicGroups }: PublicGroupDialog) => {
                     >
                         <AvatarGroup users={publicGroups.users} />
 
-                        <div className="min-w-0 flex-1">
+                        <div className="min-w-0 flex-col">
                             <div className="focus:outline-none">
                                 <span className="absolute inset-0" aria-hidden="true" />
                                 <div className="flex justify-between mb-1">
