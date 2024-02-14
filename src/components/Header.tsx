@@ -4,20 +4,33 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
+import MenuMobile from './MenuMobile'
+
 const Header = () => {
     return (
-        <header className='flex justify-between items-center  text-main w-full py-4 px-10 '>
-            <div className="flex  items-center">
+        <header className='flex items-center justify-between w-full text-main  py-4 lg:px-10 '>
+            <div className="flex px-3 items-center">
                 <Image src={"/logo.png"} width={128} height={47} alt='logo' />
                 <h1 className='text-2xl font-bold'>Chat</h1>
             </div>
-            <nav className=''>
-                <ul className='hidden lg:flex justify-around gap-3'>
+            {/* Mobile Navlinks */}
+            <div className="lg:hidden ">
+                <MenuMobile />
+            </div>
+
+            <nav className='hidden lg:block'>
+                <ul className=' lg:flex justify-around gap-3'>
                     <Link href={"/login"}>
-                        <li className='text-main px-5 py-2 rounded-md font-bold hover:underline'>Login</li>
+                        <li className='bg-gradient-to-r from-main to-rose-300 text-md bg-clip-text text-transparent px-5 py-2 rounded-md font-bold hover:underline'>Login</li>
                     </Link>
                     <Link href={"/register"}>
-                        <li className='text-main px-5 py-2 rounded-md font-bold hover:underline'>Cadastre-se</li>
+                        <li className='bg-gradient-to-r from-main to-rose-300 text-md bg-clip-text text-transparent px-5 py-2 rounded-md font-bold hover:underline'>Cadastre-se</li>
+                    </Link>
+                    <Link href={"https://github.com/ugabb"}>
+                        <li className='bg-gradient-to-r from-main to-rose-300 text-md bg-clip-text text-transparent px-5 py-2 rounded-md font-bold hover:underline'>GitHub</li>
+                    </Link>
+                    <Link href={"https://www.linkedin.com/in/ugab/"}>
+                        <li className='bg-gradient-to-r from-main to-rose-300 text-md bg-clip-text text-transparent px-5 py-2 rounded-md font-bold hover:underline'>Linkedin</li>
                     </Link>
                 </ul>
             </nav>

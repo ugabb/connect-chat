@@ -15,7 +15,8 @@ const tecnologiesList: ITechnologies[] = technologies.tecnologias
 export default async function Home() {
 
   return (
-    <main className="">
+    <main className="w-full">
+
       <Header />
       <div className="bg-gradient-to-r from-main to-main/80 text-white flex flex-col lg:flex-row justify-around items-center pt-10">
         <div className="flex flex-col items-center gap-3 lg:w-1/2 p-5">
