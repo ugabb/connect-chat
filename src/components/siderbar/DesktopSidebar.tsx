@@ -34,13 +34,13 @@ const DesktopSidebar = ({
     justify-between">
             <nav className="mt-4 flex flex-col justify-between">
                 <ul role="list" className="flex flex-col items-center space-y-1">
-                    {routes.map((item) => (
+                    {routes.filter((route) => route.label !== "Settings").map((rota) => (
                         <DesktopItem
-                            key={item.label}
-                            href={item.href}
-                            label={item.label}
-                            icon={item.icon}
-                            active={item.active}
+                            key={rota.label}
+                            href={rota.href}
+                            label={rota.label}
+                            icon={rota.icon}
+                            active={rota.active}
                         />
                     ))}
                 </ul>
