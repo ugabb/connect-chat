@@ -1,36 +1,31 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Fintalk Chat App
 
-## Getting Started
+Bem-vindo ao repositório oficial do projeto de teste técnico para a empresa Fintalk! Este aplicativo de chat foi desenvolvido como parte do processo de avaliação e demonstra a implementação de diversas funcionalidades essenciais para uma experiência de chat envolvente.
 
-First, run the development server:
+![Untitled](https://github.com/ugabb/fintalk-chat/assets/76067595/dcd4ab6d-e3c1-4999-b29b-6d99648573bb)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## **Funcionalidades Esperadas**
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **Cadastro e Autenticação de Usuários:** O aplicativo permite que os usuários criem contas de maneira fácil e segura, além de realizar o login de forma eficiente utilizando o **NextAuth**.
+    - Autenticação com as credencias ou com o Google estão disponíveis.
+- **Criação e Gestão de Salas de Chat:**  capacidade de criar salas de chat personalizadas, dando aos usuários a flexibilidade de nomear, descrever e controlar o acesso às suas salas / grupos. A gestão inclui funcionalidades avançadas, como a possibilidade de restringir o acesso através de convites no momento da criação, definindo como **público** ou **privado**.
+- **Envio e Recebimento de Mensagens em Tempo Real:** aplicação simula comunicação em tempo real. Utilizando o **pusher** para esse feito, comunicando o cliente com o servidor fazendo com que as mensagens sejam enviadas e recebidas em tempo real.
 
-## Learn More
+![Untitled (1)](https://github.com/ugabb/fintalk-chat/assets/76067595/26ae2765-44c2-47a3-83c1-b252b2a660ad)
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+![screencapture-fintalk-chat-vercel-app-chat-65ca1528ce259d24312d9180-2024-02-14-20_00_51](https://github.com/ugabb/fintalk-chat/assets/76067595/c3ff4d61-eb1c-4e90-a1b9-7e233ea90a76)
 
-## Deploy on Vercel
+## **Tecnologias Utilizadas**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Este projeto foi construído utilizando uma variedade de tecnologias modernas para garantir desempenho, segurança e uma experiência de usuário fluida. Algumas das principais tecnologias incluem:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- **React e Next.js:** Para a construção da interface do usuário.
+- **TailwindCSS e Shadcn:** Para facilitar a estilização e garantir uma aparência atraente.
+- **NextAuth:** Utilizado para a implementação de um sistema robusto de autenticação.
+- **Pusher:** Para possibilitar a comunicação em tempo real.
+- **Prisma e MongoDB:** Responsáveis pelo gerenciamento eficiente e seguro dos dados.
+- **Typescript/JavaScript e CSS:** Linguagens fundamentais para o desenvolvimento do projeto.
