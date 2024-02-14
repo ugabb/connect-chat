@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { useForm, FieldValues, SubmitHandler } from 'react-hook-form'
 import toast from 'react-hot-toast'
+import { PiUser } from 'react-icons/pi'
 import { TfiExchangeVertical } from 'react-icons/tfi'
 
 
@@ -65,6 +66,8 @@ const Settings = ({ currentUser }: SettingsProps) => {
                                     Photo
                                 </label>
                                 <div className="mt-2 flex flex-col items-center gap-x-3  z-[100] relative">
+
+
                                     <Image
                                         width="800"
                                         height="800"
@@ -78,14 +81,26 @@ const Settings = ({ currentUser }: SettingsProps) => {
                                         onUpload={handleUpload}
                                         uploadPreset='fintalk-chat'
                                     >
-                                        <Button
-                                            className='flex gap-1 items-center bg-transparent text-gray-900 shadow-none hover:text-main hover:bg-transparent transition ease-in-out text-sm font-medium leading-6'
-                                            disabled={loading}
-                                            type="button"
-                                        >
-                                            Change
-                                            <TfiExchangeVertical size={20} />
-                                        </Button>
+                                        {currentUser?.image
+                                            ?
+                                            <Button
+                                                className='flex gap-1 items-center bg-transparent text-gray-900 shadow-none hover:text-main hover:bg-transparent transition ease-in-out text-sm font-medium leading-6'
+                                                disabled={loading}
+                                                type="button"
+                                            >
+                                                Troque a foto
+                                                <TfiExchangeVertical size={20} />
+                                            </Button>
+                                            :
+                                            <Button
+                                                className='flex gap-1 items-center bg-transparent text-gray-900 shadow-none hover:text-main hover:bg-transparent transition ease-in-out text-sm font-medium leading-6'
+                                                disabled={loading}
+                                                type="button"
+                                            >
+                                                Escolha uma foto!
+                                                <TfiExchangeVertical size={20} />
+                                            </Button>
+                                        }
                                     </CldUploadButton>
                                 </div>
                             </div>
