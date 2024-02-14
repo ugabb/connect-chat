@@ -124,7 +124,7 @@ const GroupInviteDropdown = ({ groupInviteRequest, currentUser }: GroupInviteDro
   useEffect(() => {
 
     const statusLengthCal = () => {
-      groupRequestList.map((g) => console.log(g))
+      groupRequestList?.map((g) => console.log(g))
       return groupRequestList?.filter(request => (request.recipientId === currentUser.id) && (request.status === "pending")).length
     }
     setStatusLength(statusLengthCal())
