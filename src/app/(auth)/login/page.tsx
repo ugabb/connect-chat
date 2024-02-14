@@ -90,7 +90,7 @@ const Login = () => {
         <div className="hidden lg:flex flex-col justify-center items-center gap-3 w-full lg:w-1/2 lg:h-screen bg-gradient-to-r from-main to-rose-400">
           <h1 className='text-6xl font-bold text-white mb-10'>Fintalk Chat</h1>
           <Image className=' hidden lg:block mb-10' src={"/undraw_share_opinion_re_4qk7.svg"} width={250} height={250} alt='chat svg' />
-          <p className='text-white text-lg'>"Converse, Conecte, Divirta-se!"</p>
+          <p className="text-white text-lg">Converse, Conecte, Divirta-se!</p>
         </div>
 
         <div className="flex flex-col gap-3 justify-center items-center w-full lg:w-1/2 ">

@@ -27,7 +27,7 @@ export default async function Home() {
         <div className="flex flex-col items-center gap-3 lg:w-1/2 p-5">
           <h1 className="font-bold text-3xl xl:text-5xl lg:text-center lg:px-10">Conecte com seus amigos em tempo real!</h1>
           <p className="lg:w-1/2 md:text-center">
-            "Explore nosso chat: onde palavras se tornam laços, diálogos ganham vida e conexões instantâneas transformam-se em experiências únicas. Conecte-se, converse, celebre cada palavra!"</p>
+            Explore nosso chat: onde palavras se tornam laços, diálogos ganham vida e conexões instantâneas transformam-se em experiências únicas. Conecte-se, converse, celebre cada palavra!</p>
         </div>
         <Image src={"/malte-helmhold-gw749y0vBaM-unsplash-removebg-preview.png"} width={700} height={400} alt='logo' className="grayscale  md:w-1/2" />
       </div>
