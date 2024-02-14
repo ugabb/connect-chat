@@ -116,7 +116,7 @@ const ConversationList = ({ initialConversations, users, title, currentUser, pub
       <div className="px-5">
         <div className="flex justify-between mb-4 pt-4">
           <div className="text-2xl font-bold text-neutral-800">
-            Messages
+            Mensagens
           </div>
           <div className="flex gap-3 items-center">
             <div

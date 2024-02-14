@@ -65,7 +65,7 @@ const UserList = ({ users, currentUser, friendRequest, userFriends }: UserListPr
       "
         >
             <div className="px-5">
-                <div className="flex flex-col mb-4 pt-4">
+                <div className="flex flex-col mb-4 ">
                     <div className="flex justify-between items-center w-full">
                         <div
                             className="
@@ -75,7 +75,7 @@ const UserList = ({ users, currentUser, friendRequest, userFriends }: UserListPr
               py-4
               "
                         >
-                            People
+                            Pessoas
                         </div>
                         <FriendRequestDialog friendRequest={friendRequest} currentUser={currentUser} />
                     </div>
