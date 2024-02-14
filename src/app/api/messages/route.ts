@@ -1,6 +1,7 @@
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import { connect } from "http2";
 import { NextResponse } from "next/server";
+import prisma from "@/lib/prismadb";
 
 import { pusherServer } from "@/lib/pusher"
 
@@ -14,7 +15,7 @@ export async function POST(request: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const newMessage = await prisma?.message.create({
+    const newMessage = await prisma.message.create({
       data: {
         body: message,
         image,

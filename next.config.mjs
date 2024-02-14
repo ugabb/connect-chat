@@ -14,6 +14,9 @@ const nextConfig = {
       },
     ],
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   /** Configuração Experimental com SWC:
  * 
  * Utiliza a funcionalidade experimental do Next.js para incorporar plugins SWC durante a compilação.

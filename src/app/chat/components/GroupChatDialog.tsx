@@ -172,7 +172,7 @@ const GroupChatDialog = ({ users }: GroupChatDialogProps) => {
                                         </SelectTrigger>
                                         <SelectContent>
                                             {users.map((user) => (
-                                                <SelectItem value={user.id}>{user.name}</SelectItem>
+                                                <SelectItem key={user.id} value={user.id}>{user.name}</SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>
@@ -183,7 +183,7 @@ const GroupChatDialog = ({ users }: GroupChatDialogProps) => {
 
                                                 if (selectedUser) {
                                                     return (
-                                                        <Badge variant="default" className='w-fit bg-main flex gap-1 items-center'>
+                                                        <Badge key={selected.userId} variant="default" className='w-fit bg-main flex gap-1 items-center'>
                                                             {selectedUser.name}
                                                             <PiX className='cursor-pointer' onClick={() => handleRemoveMember(selectedUser.id)} />
                                                         </Badge>

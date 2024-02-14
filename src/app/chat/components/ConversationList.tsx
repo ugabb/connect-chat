@@ -113,7 +113,7 @@ const ConversationList = ({ initialConversations, users, title, currentUser, pub
     border-r 
     border-gray-200 
   `, isOpen ? 'hidden' : 'block w-full left-0')}>
-      <div className="px-5">
+      <div className="px-5 flex flex-col">
         <div className="flex justify-between mb-4 pt-4">
           <div className="text-2xl font-bold text-neutral-800">
             Mensagens
@@ -160,7 +160,7 @@ const ConversationList = ({ initialConversations, users, title, currentUser, pub
           />
         ))}
         {publicGroups?.map((group) => (
-          <PublicGroupDialog publicGroups={group} />
+          <PublicGroupDialog key={group.id} publicGroups={group} />
         ))}
       </div>
     </aside>

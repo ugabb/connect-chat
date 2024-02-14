@@ -16,6 +16,7 @@ export async function PUT(request: Request, { params }: { params: IParams }) {
     // Obtém informações do usuário atual
     const currentUser = await getCurrentUser();
     const { conversationId } = params;
+    console.log(conversationId)
     const body: Body = await request.json();
     const { senderId } = body;
 
@@ -46,34 +47,33 @@ export async function PUT(request: Request, { params }: { params: IParams }) {
 
     await pusherServer.trigger(currentUser.email, "groupRequest:add", updatedGroup)
 
-    const existingGroupRequest = await prisma.groupInviteRequest.findFirst({
-      where: {
-        senderId: senderId,
-        recipientId: currentUser.id,
-        conversationId
-      },
-    });
+    if(senderId){
 
-    if (existingGroupRequest) {
-      const accepted = await prisma.groupInviteRequest.update({
+      const existingGroupRequest = await prisma.groupInviteRequest.findFirst({
         where: {
-          id: existingGroupRequest.id,
-        },
-        data: {
-          status: "accepted",
+          senderId: senderId,
+          recipientId: currentUser.id,
+          conversationId
         },
       });
-      await pusherServer.trigger(currentUser.email, "groupRequest:accept", accepted)
+  
+      if (existingGroupRequest) {
+        const accepted = await prisma.groupInviteRequest.update({
+          where: {
+            id: existingGroupRequest.id,
+          },
+          data: {
+            status: "accepted",
+          },
+        });
+        await pusherServer.trigger(currentUser.email, "groupRequest:accept", accepted)
+      }
     }
 
 
-    return new NextResponse(JSON.stringify(updatedGroup), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    return NextResponse.json(updatedGroup);
   } catch (error) {
     console.log(error)
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
