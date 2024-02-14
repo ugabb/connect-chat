@@ -5,7 +5,6 @@ Bem-vindo ao repositório oficial do projeto de teste técnico para a empresa Fi
 ![Untitled](https://github.com/ugabb/fintalk-chat/assets/76067595/dcd4ab6d-e3c1-4999-b29b-6d99648573bb)
 
 
-
 ## **Funcionalidades Esperadas**
 
 - **Cadastro e Autenticação de Usuários:** O aplicativo permite que os usuários criem contas de maneira fácil e segura, além de realizar o login de forma eficiente utilizando o **NextAuth**.
