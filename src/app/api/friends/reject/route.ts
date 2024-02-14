@@ -1,6 +1,7 @@
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prismadb";
+import { pusherServer } from "@/lib/pusher";
 
 export async function POST(request: Request) {
   try {
@@ -31,7 +32,7 @@ export async function POST(request: Request) {
       return new NextResponse("Friend request not found", { status: 404 });
     }
 
-    await prisma.friendRequest.update({
+    const deniedRequest = await prisma.friendRequest.update({
       where: {
         id: existingFriendRequest.id,
       },
@@ -39,6 +40,8 @@ export async function POST(request: Request) {
         status: "rejected",
       },
     });
+
+    pusherServer.trigger(currentUser.id,"friendRequest:denied",deniedRequest);
 
     // Retorna uma resposta de sucesso
     return new NextResponse("Friend request rejected successfully", {

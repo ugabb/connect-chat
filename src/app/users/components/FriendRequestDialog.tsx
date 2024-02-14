@@ -99,15 +99,21 @@ const FriendRequestDialog = ({ friendRequest, currentUser }: FriendRequestDialog
             setFriendRequestList((current) => current.filter(request => request.id !== acceptedRequest.id));
         };
 
+        const deniedHandler = (deniedRequest: FriendRequest) => {
+            // Atualize a lista após aceitar o pedido
+            setFriendRequestList((current) => current.filter(request => request.id !== deniedRequest.id));
+        }
+
         pusherClient.bind("friendRequest:new", newHandler)
         pusherClient.bind("friendRequest:accept", acceptHandler)
+        pusherClient.bind("friendRequest:denied", deniedHandler)
 
 
         return () => {
             pusherClient.unsubscribe(pusherKey);
             pusherClient.unbind("friendRequest:new", newHandler)
-            // pusherClient.unbind("friendRequest:remove", removeHandler)
             pusherClient.unbind("friendRequest:accept", acceptHandler)
+            pusherClient.unbind("friendRequest:denied", deniedHandler)
         }
     }, [pusherKey])
 
