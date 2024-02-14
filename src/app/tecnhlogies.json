@@ -16,6 +16,16 @@
             "icone": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg"
         },
         {
+            "nome": "Prisma",
+            "cor": "#407d99",
+            "icone": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/prisma/prisma-original.svg"
+        },
+        {
+            "nome": "Next Auth",
+            "cor": "#000",
+            "icone": "https://next-auth.js.org/img/logo/logo-sm.png"
+        },
+        {
             "nome": "JavaScript",
             "cor": "#ecd036",
             "icone": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg"

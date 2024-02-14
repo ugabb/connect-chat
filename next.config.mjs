@@ -17,6 +17,11 @@ const nextConfig = {
         hostname: 'cdn.jsdelivr.net',
         pathname: '**',
       },
+      {
+        protocol: 'https',
+        hostname: 'next-auth.js.org',
+        pathname: '**',
+      },
     ],
   },
   typescript: {
