@@ -36,6 +36,7 @@ const MobileFooter = ({ currentUser }: MobileFooter) => {
         >
             {routes.map((route) => (
                 <MobileItem
+                label={route.label}
                     key={route.href}
                     href={route.href}
                     active={route.active}

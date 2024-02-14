@@ -137,26 +137,29 @@ const GroupInviteDropdown = ({ groupInviteRequest, currentUser }: GroupInviteDro
       <DropdownMenu>
         <DropdownMenuTrigger className='relative'>
           <PiEnvelopeSimple size={20} />
-          <span
-            className="
-    absolute 
-    rounded-full 
-    bg-main 
-    ring-2 
-    ring-white 
-    -top-2 
-    -right-2
-    h-4 
-    w-4
-    text-xs
-    flex
-    justify-center
-    items-center
-    text-white
-  "
-          >
-            {statusLength}
-          </span>
+          {statusLength > 0 &&
+            <span
+              className="
+   absolute 
+   rounded-full 
+   bg-main 
+   ring-2 
+   ring-white 
+   -top-2 
+   -right-2
+   h-4 
+   w-4
+   text-xs
+   flex
+   justify-center
+   items-center
+   text-white
+ "
+            >
+              {statusLength}
+            </span>
+          }
+
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>Convites de Grupo</DropdownMenuLabel>

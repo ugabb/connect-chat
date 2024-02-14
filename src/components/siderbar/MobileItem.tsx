@@ -5,6 +5,7 @@ import React from 'react'
 
 
 interface MobileFooterItemProps {
+    label: string
     icon: any;
     href: string;
     onClick?: () => void;
@@ -12,6 +13,7 @@ interface MobileFooterItemProps {
 }
 
 const MobileItem: React.FC<MobileFooterItemProps> = ({
+    label,
     href,
     icon: Icon,
     active,
@@ -28,6 +30,8 @@ const MobileItem: React.FC<MobileFooterItemProps> = ({
             className={clsx(`
           group 
           flex 
+          flex-col
+          items-center
           gap-x-3 
           text-sm 
           leading-6 
@@ -42,6 +46,7 @@ const MobileItem: React.FC<MobileFooterItemProps> = ({
                 active && 'bg-main text-white',
             )}>
             <Icon />
+            <p className='text-xs font-light'>{label}</p>
         </Link>
     )
 }

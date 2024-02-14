@@ -1,6 +1,4 @@
-import getCurrentUser from '@/app/actions/getCurrentUser';
-import getFriendRequest from '@/app/actions/getFriendRequest';
-import { FriendRequest } from '@prisma/client';
+
 import clsx from 'clsx';
 import Link from "next/link";
 
@@ -27,6 +25,8 @@ const DesktopItem: React.FC<DesktopItemProps> = ({
         className={clsx(`
             group 
             flex 
+            flex-col
+            items-center
             gap-x-3 
             rounded-md 
             p-3 
@@ -41,6 +41,7 @@ const DesktopItem: React.FC<DesktopItemProps> = ({
         )}
       >
         <Icon className="h-6 w-6 shrink-0" aria-hidden="true" />
+        <p className='text-xs font-light'>{label}</p>
         {/* {label === "Users" &&
           <span
             className="
