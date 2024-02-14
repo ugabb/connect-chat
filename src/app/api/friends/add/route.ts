@@ -1,6 +1,7 @@
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prismadb";
+import { pusherServer } from "@/lib/pusher";
 
 export async function POST(request: Request) {
   try {
@@ -31,7 +32,7 @@ export async function POST(request: Request) {
       return new NextResponse("Friend request not found", { status: 404 });
     }
 
-    await prisma.friendRequest.update({
+    const updatedRequest = await prisma.friendRequest.update({
       where: {
         id: existingFriendRequest.id,
       },
@@ -40,9 +41,14 @@ export async function POST(request: Request) {
       },
     });
 
+    await pusherServer.trigger(
+      currentUser.id,
+      "friendRequest:accept",
+      updatedRequest
+    );
 
     // Adiciona o sender à lista de amigos do recipient (usuário atual)
-    await prisma.user.update({
+    const addToListOfCurrentUserFriends = await prisma.user.update({
       where: {
         id: currentUser.id,
       },
@@ -57,8 +63,14 @@ export async function POST(request: Request) {
       },
     });
 
+    await pusherServer.trigger(
+      userId,
+      "friendRequest:addToListOfFriends",
+      addToListOfCurrentUserFriends
+    );
+
     // Adiciona o recipient ao sender à lista de amigos
-    await prisma.user.update({
+    const addTolistOfSenderUserFriends = await prisma.user.update({
       where: {
         id: existingFriendRequest.senderId,
       },
@@ -72,6 +84,13 @@ export async function POST(request: Request) {
         },
       },
     });
+
+
+    await pusherServer.trigger(
+      currentUser.id,
+      "friendRequest:addToListOfFriends",
+      addTolistOfSenderUserFriends
+    );
 
     // Retorna uma resposta de sucesso
     return new NextResponse("Friend request accepted successfully", {

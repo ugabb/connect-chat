@@ -1,11 +1,13 @@
 "use client"
 
 import { FriendRequest, User } from '@prisma/client'
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import UserBox from './UserBox'
 import FriendRequestDialog from './FriendRequestDialog'
 
 import FriendSearch from './FriendSearch'
+import { pusherClient } from '@/lib/pusher'
+import { find } from 'lodash'
 
 interface UserListProps {
     users: User[]
@@ -14,7 +16,37 @@ interface UserListProps {
     friendRequest: FriendRequest[]
 }
 
-const UserList = ({ users, currentUser, friendRequest,userFriends }: UserListProps) => {
+const UserList = ({ users, currentUser, friendRequest, userFriends }: UserListProps) => {
+    const [userFriendsList, setUserFriendsList] = useState<User[]>(userFriends)
+
+    const pusherKey = useMemo(() => {
+        return currentUser?.id
+    }, [currentUser?.id])
+
+    useEffect(() => {
+        if (!pusherKey) return;
+        pusherClient.subscribe(pusherKey)
+
+        const updateListOfFriendsHandler = (acceptedRequest: User) => {
+            console.log(acceptedRequest)
+            // Atualize a lista após aceitar o pedido
+            setUserFriendsList((current: any) => {
+                if (find(current, { id: acceptedRequest.id })) {
+                    return current
+                }
+
+                return [acceptedRequest, ...current]
+            })
+        };
+
+        pusherClient.bind("friendRequest:addToListOfFriends", updateListOfFriendsHandler)
+
+        return () => {
+            pusherClient.unsubscribe(pusherKey);
+            pusherClient.unbind("friendRequest:addToListOfFriends", updateListOfFriendsHandler)
+        }
+    }, [pusherKey])
+
 
     return (
         <aside
@@ -44,17 +76,20 @@ const UserList = ({ users, currentUser, friendRequest,userFriends }: UserListPro
               "
                         >
                             People
-                        </div> 
+                        </div>
                         <FriendRequestDialog friendRequest={friendRequest} currentUser={currentUser} />
                     </div>
                     <FriendSearch users={users} currentUser={currentUser} />
                 </div>
-                {userFriends.map((user) => (
-                    <UserBox
-                        key={user.id}
-                        data={user}
-                    />
-                ))}
+                {userFriendsList?.map((user) => {
+                    return (
+                        <UserBox
+                            key={user.id}
+                            //@ts-ignore
+                            data={user}
+                        />
+                    )
+                })}
             </div>
         </aside >
     )

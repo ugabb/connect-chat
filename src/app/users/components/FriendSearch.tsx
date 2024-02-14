@@ -109,7 +109,7 @@ export default function FriendSearch({ users, currentUser }: FriendSearchProps) 
                                                             }}
                                                             className="flex gap-1 items-center cursor-pointer"
                                                         >
-                                                            {user.image && <Image className="rounded-full h-6 w-6" src={user.image} width={100} height={100} alt="profile image" />}
+                                                            {user.image && <Image className="rounded-full h-6 w-6 object-cover  " src={user.image} width={100} height={100} alt="profile image" />}
                                                             {user.name}
                                                             <CheckIcon
                                                                 className={cn(

@@ -92,21 +92,28 @@ const FriendRequestDialog = ({ friendRequest, currentUser }: FriendRequestDialog
             })
         }
 
+        const acceptHandler = (acceptedRequest: FriendRequest) => {
+            console.log(acceptedRequest)
+            // Atualize a lista após aceitar o pedido
+            setFriendRequestList((current) => current.filter(request => request.id !== acceptedRequest.id));
+          };
+
         pusherClient.bind("friendRequest:new", newHandler)
+        pusherClient.bind("friendRequest:accept", acceptHandler)
 
 
         return () => {
             pusherClient.unsubscribe(pusherKey);
             pusherClient.unbind("friendRequest:new", newHandler)
             // pusherClient.unbind("friendRequest:remove", removeHandler)
-            // pusherClient.unbind("friendRequest:accept", acceptHandler)
+            pusherClient.unbind("friendRequest:accept", acceptHandler)
         }
     }, [pusherKey])
 
 
     useEffect(() => {
         const statusLengthCal = () => {
-            friendRequestList.map((friendRe) => console.log(friendRe))
+            friendRequestList?.map((friendRe) => console.log(friendRe))
             return friendRequestList?.filter(request => (request.recipientId === currentUser.id) && (request.status === "pending")).length
         }
         setStatusLength(statusLengthCal())
@@ -147,7 +154,7 @@ const FriendRequestDialog = ({ friendRequest, currentUser }: FriendRequestDialog
                         {friendRequestList?.filter((request: any) => request.status === "pending" && request.recipientId === currentUser.id).map((request) => (
                             <DropdownMenuItem key={request.id} className='flex justify-between items-center gap-5'>
                                 <div className="flex gap-1 items-center">
-                                    <Image className='h-8 w-8 rounded-full' src={request.sender.image} width={100} height={100} alt='profile image' />
+                                    <Image className='h-8 w-8 rounded-full object-cover' src={request.sender.image} width={100} height={100} alt='profile image' />
                                     <p>{request?.sender.name}</p>
                                 </div>
                                 <div className="flex justify-center items-center gap-1">
