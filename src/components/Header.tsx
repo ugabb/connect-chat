@@ -26,10 +26,10 @@ const Header = () => {
                     <Link href={"/register"}>
                         <li className='bg-gradient-to-r from-main to-rose-300 text-md bg-clip-text text-transparent px-5 py-2 rounded-md font-bold hover:scale-105'>Cadastre-se</li>
                     </Link>
-                    <Link href={"https://github.com/ugabb/fintalk-chat"}target='_blank'>
+                    <Link href={"https://github.com/ugabb/fintalk-chat"} target='_blank'>
                         <li className='bg-gradient-to-r from-main to-rose-300 text-md bg-clip-text text-transparent px-5 py-2 rounded-md font-bold hover:scale-105'>GitHub</li>
                     </Link>
-                    <Link href={"https://www.linkedin.com/in/ugab/"}target='_blank'>
+                    <Link href={"https://www.linkedin.com/in/ugab/"} target='_blank'>
                         <li className='bg-gradient-to-r from-main to-rose-300 text-md bg-clip-text text-transparent px-5 py-2 rounded-md font-bold hover:scale-105'>Linkedin</li>
                     </Link>
                 </ul>
