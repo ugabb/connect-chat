@@ -1,0 +1,49 @@
+{
+    "tecnologias": [
+        {
+            "nome": "Next.js",
+            "cor": "#000000",
+            "icone": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg"
+        },
+        {
+            "nome": "React",
+            "cor": "#2e8492",
+            "icone": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"
+        },
+        {
+            "nome": "TypeScript",
+            "cor": "#007ACC",
+            "icone": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg"
+        },
+        {
+            "nome": "JavaScript",
+            "cor": "#ecd036",
+            "icone": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg"
+        },
+        {
+            "nome": "Tailwind CSS",
+            "cor": "#38B2AC",
+            "icone": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
+        },
+        {
+            "nome": "Pusher",
+            "cor": "#652EC7",
+            "icone": "https://pusher.com/static/pusher-logo-0576fd4af5c38706f96f632235f3124a.svg"
+        },
+        {
+            "nome": "Zod",
+            "cor": "#65b3f6",
+            "icone": "https://zod.dev/logo.svg"
+        },
+        {
+            "nome": "CSS",
+            "cor": "#2965F1",
+            "icone": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg"
+        },
+        {
+            "nome": "HTML",
+            "cor": "#E44D26",
+            "icone": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"
+        }
+    ]
+}
