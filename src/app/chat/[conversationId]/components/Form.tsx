@@ -9,6 +9,7 @@ import MessageInput from './MessageInput'
 import { Button } from '@/components/ui/button'
 
 import { CldUploadButton } from 'next-cloudinary'
+import toast from 'react-hot-toast'
 
 const Form = () => {
     const { conversationId } = useConversation()
@@ -28,11 +29,20 @@ const Form = () => {
     }
 
     const handleUpload = (result: any) => {
-        axios.post("/api/messages", {
-            image: result?.info?.secure_url,
-            conversationId
-        })
-    }
+        // Check if the uploaded file is an image
+        if (result?.info?.resource_type === 'image') {
+            axios.post('/api/messages', {
+                image: result?.info?.secure_url,
+                conversationId,
+            })
+            .then(() => console.log("Imagem enviada"))
+            .catch((error) => toast.error("Você só pode mandar imagens!"));
+        } else {
+            toast.error("Você só pode mandar imagens!")
+            // Handle error for non-image files
+            console.error('Invalid file type. Please upload only images.');
+        }
+    };
 
     return (
         <div
@@ -49,7 +59,8 @@ const Form = () => {
         "
         >
             <CldUploadButton
-                options={{ maxFiles: 1 }}
+                options={{ maxFiles: 1, resourceType: "image" }}
+
                 onUpload={handleUpload}
                 uploadPreset='fintalk-chat'
             >

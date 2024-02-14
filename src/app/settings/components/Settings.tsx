@@ -77,7 +77,7 @@ const Settings = ({ currentUser }: SettingsProps) => {
                                     />
 
                                     <CldUploadButton
-                                        options={{ maxFiles: 1 }}
+                                         options={{ maxFiles: 1, resourceType: "image" }}
                                         onUpload={handleUpload}
                                         uploadPreset='fintalk-chat'
                                     >
