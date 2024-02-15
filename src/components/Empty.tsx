@@ -13,7 +13,7 @@ const Empty = () => {
         items-center 
         bg-gray-100'>
             <div className="flex flex-col justify-center items-center">
-                <h3 className='text-2xl font-semibold text-gray-900'>Select a chat or start a new conversation</h3>
+                <h3 className='text-2xl font-semibold text-gray-900'>Seleciona um chat para conversar!</h3>
             </div>
         </div>
     )
