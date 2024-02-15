@@ -2,6 +2,8 @@
 
 Bem-vindo ao repositório oficial do projeto de teste técnico para a empresa Fintalk! Este aplicativo de chat foi desenvolvido como parte do processo de avaliação e demonstra a implementação de diversas funcionalidades essenciais para uma experiência de chat envolvente.
 
+**Deploy:** https://fintalk-chat.vercel.app/
+
 ![Untitled](https://github.com/ugabb/fintalk-chat/assets/76067595/dcd4ab6d-e3c1-4999-b29b-6d99648573bb)
 
 
