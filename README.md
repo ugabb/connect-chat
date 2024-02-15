@@ -1,4 +1,4 @@
-# Fintalk Chat App
+# Fintalk Chat App Full Stack Project
 
 Bem-vindo ao repositório oficial do projeto de teste técnico para a empresa Fintalk! Este aplicativo de chat foi desenvolvido como parte do processo de avaliação e demonstra a implementação de diversas funcionalidades essenciais para uma experiência de chat envolvente.
 
