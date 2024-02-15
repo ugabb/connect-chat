@@ -96,7 +96,7 @@ const Login = () => {
         <div className="flex flex-col gap-3 justify-center items-center w-full lg:w-1/2 ">
           <Image className='lg:hidden mb-10' src={"/undraw_share_opinion_re_4qk7.svg"} width={250} height={250} alt='chat svg' />
 
-          <h1 className='text-xl lg:text-3xl mb-10 font-bold text-main'>Sign In to Chat!</h1>
+          <h1 className='text-xl lg:text-3xl mb-10 font-bold text-main'>Entre para Conversar!</h1>
 
           <form onSubmit={handleSubmit(onSubmit)} id="loginForm" className='flex flex-col gap-5'>
             <label className='text-sm'>
