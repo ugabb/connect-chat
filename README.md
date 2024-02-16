@@ -30,3 +30,12 @@ Este projeto foi construído utilizando uma variedade de tecnologias modernas pa
 - **Pusher:** Para possibilitar a comunicação em tempo real.
 - **Prisma e MongoDB:** Responsáveis pelo gerenciamento eficiente e seguro dos dados.
 - **Typescript/JavaScript e CSS:** Linguagens fundamentais para o desenvolvimento do projeto.
+
+## Como Testar?
+- Cadastre-se no site ou entre com o Google para ser autenticado.
+- Faça isso em 2 navegadores diferentes para poder conversar entre si e testar o chat.
+- Crie conversas privadas.
+- Crie grupos privados.
+- Crie grupos públicos.
+- Altere sua foto de perfil
+- Converse bastante! 😁
