@@ -9,6 +9,8 @@ import { IoLogoGithub } from "react-icons/io";
 import { IoLogoLinkedin } from "react-icons/io";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
+import { PiChatCircleText, PiChatsCircle, PiImage, PiPaperPlaneTilt, PiUserPlus } from "react-icons/pi";
+import BoxIconText from "@/components/BoxIconText";
 
 interface ITechnologies {
   nome: string;
@@ -20,19 +22,19 @@ const tecnologiesList: ITechnologies[] = technologies.tecnologias
 export default async function Home() {
 
   return (
-    <main className="w-full">
+    <main className="w-full bg-gradient-to-r from-zinc-100 to-orange-50">
 
       <Header />
-      <div className="bg-gradient-to-r from-main to-main/80 text-white flex flex-col lg:flex-row justify-around items-center pt-10">
+      <div className="bg-gradient-to-r from-main to-main/80 text-white flex flex-col lg:flex-row justify-around items-center pt-10 lg:px-36 ">
         <div className="flex flex-col items-center gap-3 lg:w-1/2 p-5">
           <h1 className="font-bold text-3xl xl:text-5xl lg:text-center lg:px-10">Conecte com seus amigos em tempo real!</h1>
-          <p className="lg:w-1/2 md:text-center">
+          <p className="md:text-center">
             Explore nosso chat: onde palavras se tornam laços, diálogos ganham vida e conexões instantâneas transformam-se em experiências únicas. Conecte-se, converse, celebre cada palavra!</p>
         </div>
-        <Image src={"/malte-helmhold-gw749y0vBaM-unsplash-removebg-preview.png"} width={700} height={400} alt='logo' className="grayscale  md:w-1/2" />
+        <Image src={"/online-worlds.svg"} width={700} height={400} alt='logo' className="md:w-1/2 lg:w-1/3 saturate-50" />
       </div>
 
-      <div className="flex flex-col lg:flex-row justify-around items-center gap-5 p-4 my-10">
+      {/* <div className="flex flex-col lg:flex-row justify-around items-center gap-5 p-4 my-10">
         <div className="flex flex-col items-center lg:flex-col-reverse">
           <h1 className="text-3xl bg-gradient-to-r from-main to-rose-300 bg-clip-text text-transparent font-bold">Gabriel Barros</h1>
           <Image src={'/profile-pic (1).png'} width={700} height={400} alt='logo' className="h-32 w-32 lg:h-48 lg:w-48" />
@@ -50,11 +52,26 @@ export default async function Home() {
             </Link>
           </div>
         </div>
+      </div> */}
+      <div className="flex flex-col xl:flex-row gap-3 max-w-7xl mx-auto">
+        <div className="flex flex-col md:grid md:grid-cols-2 md:place-items-center md:max-w-2xl lg:max-w-3xl mx-auto lg:flex-row justify-around items-center gap-5 p-4 my-10">
+          <BoxIconText text={"Chat In Group"} icon={<PiChatsCircle size={100} className="text-white" />} />
+          <BoxIconText text={"Real Time Chat"} icon={<PiPaperPlaneTilt size={100} className="text-white" />} />
+          <BoxIconText text={"Send Media"} icon={<PiImage size={100} className="text-white" />} />
+          <BoxIconText text={"Invite Your Friends"} icon={<PiUserPlus size={100} className="text-white" />} />
+        </div>
+
+        <div className="flex flex-col justify-around items-center p-4 my-10">
+          <Image src="/short-hair-man-with-glasses.png" width={500} height={500} alt="short-hair-man-with-glasses" className=" drop-shadow-2xl" />
+          <button className="w-[300px] md:w-[500px] px-5 py-3 rounded-xl hover:text-main text-white text-xl bg-gradient-to-r from-main to-main/80 uppercase font-bold hover:bg-none hover:outline hover:outline-main outline-1 transition-colors z-10">Sign Up Now</button>
+          <h1 className="font-bold text-4xl text-main text-center pt-3">Totally Free</h1>
+        </div>
       </div>
 
-      <Separator className="bg-main my-10" />
 
-      <div className="flex flex-col gap-5 mt-10">
+      {/* <Separator className="bg-main my-10" /> */}
+
+      {/* <div className="flex flex-col gap-5 mt-10">
         <h1 className="text-3xl bg-gradient-to-r from-main to-rose-300 text-md bg-clip-text text-transparent font-bold px-10">Feito com as Tecnologias:</h1>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:max-w-4xl lg:mx-auto p-5 gap-2">
           {tecnologiesList.map((tech: ITechnologies) => (
@@ -64,14 +81,14 @@ export default async function Home() {
             </Badge>
           ))}
         </div>
-      </div>
+      </div> */}
 
 
       <footer className="flex flex-col  gap-5 justify-around lg:items-center bg-gradient-to-r from-main to-main/80 py-10 px-5 mt-10">
         <div className="flex flex-col gap-10 md:flex-row lg:flex-row justify-around items-center">
-          <div className="flex flex-col gap-1">
-            <h1 className='text-2xl font-bold text-white'>Fintalk Chat</h1>
-            <p className="text-white text-xs">Real Time Chat</p>
+          <div className="flex gap-3 px-3 items-center">
+            <h1 className='text-2xl font-bold text-white'>Connect Chat</h1>
+            <PiChatCircleText size={30} className="text-white" />
           </div>
 
           <ul className='flex flex-col md:flex-row justify-around gap-3'>

@@ -33,7 +33,7 @@ const MenuMobile = () => {
                             <li className='bg-gradient-to-r from-main to-indigo-500 text-xl bg-clip-text text-transparent px-5 py-2 rounded-md font-bold hover:underline'>Login</li>
                         </Link>
                         <Link href={"/register"}>
-                            <li className='bg-gradient-to-r from-main to-indigo-500 text-xl bg-clip-text text-transparent px-5 py-2 rounded-md font-bold hover:underline'>Cadastre-se</li>
+                            <li className='bg-gradient-to-r from-main to-indigo-500 text-xl bg-clip-text text-transparent px-5 py-2 rounded-md font-bold hover:underline'>Sign Up</li>
                         </Link>
                         <Link href={"https://github.com/ugabb"} target='_blank'>
                             <li className='bg-gradient-to-r from-main to-indigo-500 text-xl bg-clip-text text-transparent px-5 py-2 rounded-md font-bold hover:underline'>GitHub</li>
