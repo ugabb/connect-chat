@@ -16,7 +16,7 @@
 
 <p float="left">
   <img src="https://github.com/ugabb/fintalk-chat/blob/main/public/homepage-mac.png" width="600" />
-  <img src="https://github.com/ugabb/fintalk-chat/blob/main/public/homepage-phone.png" width="100" /> 
+  <img src="https://github.com/ugabb/fintalk-chat/blob/main/public/homepage-phone.png" width="200" /> 
 </p>
 
 ![Untitled (1)](https://github.com/ugabb/fintalk-chat/assets/76067595/26ae2765-44c2-47a3-83c1-b252b2a660ad)
