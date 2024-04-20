@@ -75,7 +75,7 @@ export default async function Home() {
 
         <section className="flex flex-col lg:flex-row-reverse items-center justify-center p-4 my-10">
           <div className="flex flex-col justify-center items-center">
-            <p className="text-zinc-700 text-xl">Don't miss out on the opportunity to join our vibrant community. Start chatting, make new friends, share experiences, and create lasting memories. Your journey towards enriching conversations begins here!</p>
+            <p className="text-zinc-700 text-xl">Don&apos;t miss out on the opportunity to join our vibrant community. Start chatting, make new friends, share experiences, and create lasting memories. Your journey towards enriching conversations begins here!</p>
             <Image src="/male-and-female-chatting-with-each-other-through-mobile.png" width={500} height={500} alt="male-and-female-chatting-with-each-other-through-mobile" className=" drop-shadow-2xl" />
           </div>
 
