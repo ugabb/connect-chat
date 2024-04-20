@@ -15,7 +15,7 @@
 - **Envio e Recebimento de Mensagens em Tempo Real:** aplicação simula comunicação em tempo real. Utilizando o **pusher** para esse feito, comunicando o cliente com o servidor fazendo com que as mensagens sejam enviadas e recebidas em tempo real.
 
 <p float="left">
-  <img src="https://github.com/ugabb/fintalk-chat/blob/main/public/homepage-mac.png" width="800" />
+  <img src="https://github.com/ugabb/fintalk-chat/blob/main/public/homepage-mac.png" width="600" />
   <img src="https://github.com/ugabb/fintalk-chat/blob/main/public/homepage-phone.png" width="200" /> 
 </p>
 
