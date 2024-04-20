@@ -25,7 +25,7 @@ const MenuMobile = () => {
             <DrawerContent className='h-full bg-gradient-to-t from-main/20 to-transparent rounded-none'>
                 <DrawerHeader>
                     <DrawerTitle className='text-main text-xl'>Fintalk Chat</DrawerTitle>
-                    <DrawerDescription><span className='text-main font-semibold'>Explore</span> as possibilidades</DrawerDescription>
+                    <DrawerDescription><span className='text-main font-semibold'>Explore</span> possibilities</DrawerDescription>
                 </DrawerHeader>
                 <nav className=''>
                     <ul className='flex flex-col justify-around gap-3'>
