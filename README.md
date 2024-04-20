@@ -2,7 +2,7 @@
 
 ## Chat de conversas em tempo real!
 
-**Deploy:** https://fintalk-chat.vercel.app/
+**Deploy:** [Connect Chat](https://connect-chats.vercel.app/)
 
 ![image](https://github.com/ugabb/fintalk-chat/assets/76067595/0743cca4-8205-429c-949f-14ba0d2317ae)
 
